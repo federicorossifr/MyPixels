@@ -1,2 +1,3 @@
 <?php
-  require "./php/router.php";
+  require "./php/db.php";
+  $data = new db();

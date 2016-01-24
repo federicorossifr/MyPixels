@@ -4,14 +4,17 @@
   $data = new db();
 
   //create
-  function createUser($username,$password) {
+  function createUser($username,$password,$ajax = 0) {
     global $data;
     $data->utilityFilter($username);
     $data->utilityFilter($password);
 
     $query = "INSERT INTO users(username,password) VALUES('$username','$password')";
     $result = $data->query($query);
-    return $data->insertedId;
+    if($ajax)
+    	echo $data->insertedId;
+    else
+    	return $data->insertedId;
   }
 
   //read
@@ -23,14 +26,14 @@
     $data->query($query);
 
     if($ajax)
-      echo $data->JSONResult();
+      echo $data->ExtendedJSONResult();
     else {
       return $data->arrayResult();
     }
   }
 
   //update
-  function updateUser($id,$newUsername,$newPassword) {
+  function updateUser($id,$newUsername,$newPassword, $ajax = 0) {
     global $data;
     $data->utilityFilter($id);
     $data->utilityFilter($newUsername);
@@ -38,7 +41,10 @@
 
     $query = "UPDATE users SET username = '$newUsername', password ='$newPassword' WHERE id = '$id'";
     $result = $data->query($query);
-    return $result;
+    if($ajax)
+    	echo $result;
+    else
+    	return $result;
   }
 
   //delete
