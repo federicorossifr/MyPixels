@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Pxls</title>
+    <title>Pxls - My pixels</title>
   </head>
   <body>
 
