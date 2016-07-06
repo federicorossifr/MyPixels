@@ -87,3 +87,10 @@
       return $data->rows;
     }
   }
+
+  function createUserSession($username,$password) {
+  }
+
+
+  function deleteUserSession($username,$password) {
+  }

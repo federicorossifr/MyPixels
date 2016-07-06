@@ -22,7 +22,7 @@
     case 'readUser':
        $userId = $_GET['id'];
        getUserById($userId,1);
-    break;
+       break;
   }
 
 
