@@ -22,9 +22,15 @@
       break;
 
     case 'readUser':
-       $userId = $_GET['id'];
-       getUserById($userId,1);
-       break;
+        $userId = $_GET['id'];
+        getUserById($userId,1);
+        break;
+
+    case 'authenticate':
+        $username = $_POST['username'];
+        $password = $_POST['password'];
+        authenticate($username,$password,1);
+        break;
   }
 
 

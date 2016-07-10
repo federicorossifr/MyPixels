@@ -11,7 +11,7 @@ class db {
 
 
   function __construct() {
-    $this->connection = new mysqli('localhost','root','','mypx');
+    $this->connection = new mysqli('localhost','root','','pweb');
     if(!$this->connection)
       die("Impossibile contattare il database");
     else {
@@ -44,8 +44,7 @@ class db {
       $this->insertedId = $this->connection->insert_id;
       $this->affected = $this->connection->affected_rows;
     }
-      if(!$next)
-        $this->end;
+
       return $this->result;
   }
 
@@ -74,7 +73,6 @@ class db {
     $response['data'] = $this->arrayResult(1);
     $response['length'] = $this->rows;
     $response['error'] = $this->error()['errorMessage'];
-    $this->end();
     return json_encode($response);
   }
 

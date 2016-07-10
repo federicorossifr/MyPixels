@@ -12,7 +12,7 @@
     $data->utilityFilter($surname);
 
 
-    $query = "INSERT INTO users(username,password,firstName,surname) VALUES('$username','$password','$firstName','$surname')";
+    $query = "INSERT INTO users(username,passwd,firstName,surname) VALUES('$username','$password','$firstName','$surname')";
     $result = $data->query($query);
     if($ajax)
     	echo $data->insertedId;
@@ -69,11 +69,14 @@
     global $data;
     $data->utilityFilter($username);
     $data->utilityFilter($password);
-    $query = "SELECT * FROM users WHERE username = '$username' AND password = '$password'";
+    $query = "SELECT * FROM users WHERE username = '$username' AND passwd = '$password'";
     $data->query($query);
 
-    if($ajax)
-      echo $data->rows;
+    if($ajax) {
+      	$fetchedUser = $data->JSONResult();
+      	createUserSession($fetchedUser);
+      	echo $fetchedUser;
+    }
     else
       return $data->rows;
   }
@@ -91,7 +94,12 @@
     }
   }
 
-  function createUserSession($username,$password) {
+  function createUserSession($userObject) {
+  	session_start();
+  	$userObject = json_decode($userObject)[0];
+  	$_SESSION["logged"] = 1;
+  	$_SESSION["id"] = $userObject->id;
+  	$_SESSION["username"] = $userObject->username;
   }
 
 

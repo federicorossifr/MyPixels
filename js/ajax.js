@@ -7,7 +7,8 @@ function get(url,callback) {
       if (client.readyState == 4 && client.status == 200) {
         callback(client.responseText);
       }
-    };    client.open("GET",url);
+    };
+    client.open("GET",url);
     client.send();
 }
 
@@ -37,4 +38,30 @@ function post(formElement,callback) {
 
   client.open("POST",formElement.action);
   client.send(data);
+}
+
+function setAjax(formElement,callback) {
+  formElement.onsubmit = function(event) {
+    event.preventDefault();
+    event.stopPropagation();
+    var method = formElement.getAttribute("method");
+    switch(method) {
+      case "POST":
+        post(formElement,callback);
+        break;
+      case "GET":
+      default:
+        var url = formElement.action + "&";
+        var inputs = formElement.querySelectorAll("input");
+        console.log(inputs.length);
+        for(var i = 0; i < inputs.length; ++i) {
+          if(inputs[i].type == "submit")
+            continue;
+          url += inputs[i].name + "=" + inputs[i].value;
+          if(i < inputs.length - 2)
+            url += "&";
+        }
+        get(url,callback);
+    }
+  }
 }
