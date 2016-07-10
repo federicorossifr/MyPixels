@@ -90,6 +90,7 @@ CREATE TABLE messages(
     dstId INTEGER NOT NULL,
     messageBody VARCHAR(150),
     picId INTEGER,
+    messageTime DATETIME,
     FOREIGN KEY(srcId) REFERENCES users(id) 
         ON UPDATE CASCADE ON DELETE CASCADE,
     FOREIGN KEY(dstId) REFERENCES users(id)
@@ -150,6 +151,10 @@ CREATE TRIGGER  currTimePicCreated
 BEFORE INSERT ON pics FOR EACH ROW
     SET NEW.created = CURRENT_TIME();
 
+/**** TRIGGER FOR DATETIME IN MESSAGES ****/
+CREATE TRIGGER currTimeMsgCreated
+BEFORE INSERT ON messages FOR EACH ROW
+    SET NEW.messageTime = CURRENT_TIME();
 
 /**** STORED PROCEDURE TO HELP PIC'S TAG***/
 DROP PROCEDURE IF EXISTS tagPic;
@@ -178,5 +183,61 @@ CREATE PROCEDURE followUser (IN follower INT,IN followed INT)
 BEGIN
     INSERT INTO followship(follower,followed) VALUES(follower,followed);
 END $$
+DELIMITER ;
+
+
+/** STORED PROCEDURE TO LIKE PIC **/
+DROP PROCEDURE IF EXISTS likePic;
+DELIMITER $$
+CREATE PROCEDURE likePic(IN uId INT,IN pId INT,IN up BOOL)
+BEGIN
+    DECLARE yet BOOL DEFAULT NULL;
+    
+    SELECT upvote INTO yet FROM likes L WHERE L.userId = uId AND L.picId = pId;
+    
+    IF yet IS NULL THEN /* NO UP/DOWN VOTE */
+        INSERT INTO likes(userId,picId,upvote) VALUES (uId,pId,up);
+    END IF;
+
+    IF yet = up THEN /* TOGGLE VOTE  */
+        DELETE  FROM likes WHERE userId = uId AND picId = pId;
+    END IF;
+    
+    IF yet  <> up THEN
+        UPDATE likes SET upvote = up WHERE userId = uId AND picId = pId;
+    END IF;
+END $$
+DELIMITER ;
+
+/*** PROCEDURE TO SEND A MESSAGE ***/
+DROP PROCEDURE IF EXISTS sendMessage;
+DELIMITER $$
+CREATE PROCEDURE sendMessage (IN src VARCHAR(45) ,IN dst VARCHAR(45) ,IN  msg LONGTEXT,IN picId INT)
+sendM:BEGIN
+    DECLARE srcId INTEGER DEFAULT NULL;
+    DECLARE dstId INTEGER DEFAULT NULL;
+    DECLARE picExists INTEGER DEFAULT NULL;
+    
+    SELECT id INTO srcId FROM users WHERE username = src;
+    SELECT id INTO dstId FROM users WHERE username = dst;
+    SELECT COUNT(*) INTO picExists FROM pics P WHERE P.picId = picId;
+    
+    IF srcId IS NULL or dstId IS NULL THEN
+        LEAVE sendM;
+    END IF;
+    
+    IF picExists = 0 THEN
+        SET picId = NULL;
+    END IF;
+    
+    INSERT INTO messages(srcId,dstId,messageBody,picId) VALUES (srcId,dstId,msg,picId);
+END $$
+
+
+
+
+
+
+
 
 
