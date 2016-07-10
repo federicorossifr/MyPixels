@@ -9,7 +9,9 @@
     case 'createUser':
         $username = $_POST['username'];
         $password = $_POST['password'];
-        createUser($username,$password,1);
+        $firstName = $_POST['firstName'];
+        $surname = $_POST['surname'];
+        createUser($username,$password,$firstName,$surname,1);
       break;
 
     case 'updateUser':

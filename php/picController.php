@@ -9,20 +9,30 @@
     return $path . $fileName;
   }
 
+  //FUNZIONE DI UTILITA' PER IL CONTROLLO DEL FORMATO
+  function checkFormat($postFile,$type) {
+
+
+
+  }
 
   //create
-  function createPic($name,$postFile,$user,$collection,$ajax = 0) {
+  function createPic($description,$postFile,$user,$mime,$feed,$ajax = 0) {
     global $data;
     $collection = $collection || null;
 
-    $data->utilityFilter($name);
+    $data->utilityFilter($description);
     $data->utilityFilter($path);
     $data->utilityFilter($user);
-    $data->utilityFilter($collection);
+    $data->utilityFilter($mime);
+    $data->utilityFilter($feed);
 
-    $path = saveFile($postFile, "./images/",".jpeg");
-    $query = "INSERT INTO pics(name,path,user,collection) VALUES('$name','$path',$user,$collection)";
-    $result = $data->query($query);
+    if($mime == 1)
+    	$path = saveFile($postFile, "./pics/",".jpeg");
+    else
+    	$path = saveFile($postFile, "./pics",".mp4")
+    $query = "INSERT INTO pics(description,path,userId,mime,feed) VALUES('$description','$path',$user,$mime,$feed)";
+    $result = $data->query($query,0);
 
     if($ajax) {
       echo $result;

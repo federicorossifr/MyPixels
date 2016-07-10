@@ -4,12 +4,15 @@
   $data = new db();
 
   //create
-  function createUser($username,$password,$ajax = 0) {
+  function createUser($username,$password,$firstName,$surname,$ajax = 0) {
     global $data;
     $data->utilityFilter($username);
     $data->utilityFilter($password);
+    $data->utilityFilter($firstName);
+    $data->utilityFilter($surname);
 
-    $query = "INSERT INTO users(username,password) VALUES('$username','$password')";
+
+    $query = "INSERT INTO users(username,password,firstName,surname) VALUES('$username','$password','$firstName','$surname')";
     $result = $data->query($query);
     if($ajax)
     	echo $data->insertedId;

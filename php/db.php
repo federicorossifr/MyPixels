@@ -27,7 +27,7 @@ class db {
     return $query;
   }
 
-  function query($query) {
+  function query($query,$next = 1) {
 
     $this->result = $this->connection->query($query);
 
@@ -44,6 +44,8 @@ class db {
       $this->insertedId = $this->connection->insert_id;
       $this->affected = $this->connection->affected_rows;
     }
+      if(!$next)
+        $this->end;
       return $this->result;
   }
 
@@ -72,6 +74,7 @@ class db {
     $response['data'] = $this->arrayResult(1);
     $response['length'] = $this->rows;
     $response['error'] = $this->error()['errorMessage'];
+    $this->end();
     return json_encode($response);
   }
 
