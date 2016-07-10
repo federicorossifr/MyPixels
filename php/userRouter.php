@@ -26,6 +26,11 @@
         getUserById($userId,1);
         break;
 
+    /*** debug read all ***/
+    case 'readAll':
+        readAll(1);
+        break;
+
     case 'authenticate':
         $username = $_POST['username'];
         $password = $_POST['password'];

@@ -22,12 +22,13 @@
   			<input type="submit" value="SEND">
   		</form>
   		<hr>
+
   		<h1>Read Test</h1>
   		<form id="readForm" method="GET" action="./php/userRouter.php?route=readUser">
-  			<input type="text" name="id">
+  			<select name="id" id="users"></select>
   			<input type="submit" value="SEND">
   		</form>
-  		<hr>
+  		<hr>   
   </body>
 
 
@@ -37,9 +38,23 @@
 		alert(result);
 	}
 
+  function appendOption(select,optionName) {
+    var option = document.createElement("option");
+    option.textContent = optionName;
+    option.value = optionName;
+    select.appendChild(option);
+  }
+
 	setAjax(document.getElementById("registerForm"),logTest);
 	setAjax(document.getElementById("loginForm"),logTest);
 	setAjax(document.getElementById("readForm"),logTest);
+
+  get("./php/userRouter.php?route=readAll",function(result) {
+    var users = JSON.parse(result).data;
+    for(var i = 0; i < users.length; ++i)
+      appendOption(document.getElementById("users"),users[i].id);
+
+  });
 
 
 </script>

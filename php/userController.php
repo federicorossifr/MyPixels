@@ -35,6 +35,22 @@
     }
   }
 
+  /**** DEBUG READ ALL ****/
+
+  function readAll($ajax = 0) {
+    global $data;
+    $query = "SELECT * FROM users";
+    $data->query($query);
+
+    if($ajax)
+      echo $data->ExtendedJSONResult();
+    else
+      return $data->arrayResult();
+  }
+
+
+  /************************/
+
   //update
   function updateUser($id,$newUsername,$newPassword, $ajax = 0) {
     global $data;
