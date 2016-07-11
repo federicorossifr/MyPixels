@@ -90,11 +90,26 @@
 
     if($ajax) {
       	$fetchedUser = $data->JSONResult();
-      	createUserSession($fetchedUser);
+
+        if($data->rows)
+      	 createUserSession($fetchedUser);
       	echo $fetchedUser;
     }
     else
       return $data->rows;
+  }
+
+  function followUser($follower,$followed,$ajax = 0) {
+    global $data;
+    $data->utilityFilter($follower);
+    $data->utilityFilter($followed);
+    $query = "CALL followUser($follower,$followed)";
+    $result = $data->query($query);
+
+    if($ajax)
+      echo $result;
+    else
+      return $result;
   }
 
   function userNameExists($username,$ajax = 0) {
@@ -119,5 +134,12 @@
   }
 
 
-  function deleteUserSession($username,$password) {
+  function deleteUserSession() {
+    session_start();
+    unset($_SESSION['logged']);
+    unset($_SESSION['id']);
+    unset($_SESSION['username']);
+    unset($_SESSION['password']);
+    session_destroy();
+    var_dump($_SESSION);
   }

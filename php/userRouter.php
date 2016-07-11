@@ -36,6 +36,23 @@
         $password = $_POST['password'];
         authenticate($username,$password,1);
         break;
+
+    case 'logout':
+        deleteUserSession();
+        break;
+
+    case 'getNotifies':
+        $userId = $_GET['id'];
+        getNotifies($userId,1);
+        break;
+
+    case 'follow':
+        session_start();
+        if(!isset($_SESSION['logged'])) break;
+        $follower = $_SESSION['id'];
+        $followed = $_POST['followed'];
+        followUser($follower,$followed,1);
+        break;
   }
 
 
