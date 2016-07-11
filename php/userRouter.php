@@ -42,9 +42,19 @@
         break;
 
     case 'getNotifies':
-        $userId = $_GET['id'];
+        session_start();
+        if(!isset($_SESSION['logged'])) break;
+        $userId = $_SESSION['id'];
         getNotifies($userId,1);
         break;
+
+    case 'emptyNotifies':
+        session_start();
+        if(!isset($_SESSION['logged'])) break;
+        $userId = $_SESSION['id'];
+        emptyNotifies($userId,1);
+        break;
+
 
     case 'follow':
         session_start();

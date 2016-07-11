@@ -99,7 +99,6 @@ CREATE TABLE messages(
         ON UPDATE CASCADE ON DELETE CASCADE
 );
 
-
 CREATE TABLE notifies (
     id INTEGER PRIMARY KEY AUTO_INCREMENT,
     userId INTEGER NOT NULL,
@@ -107,6 +106,7 @@ CREATE TABLE notifies (
     userDone INTEGER,
     picInvolved INTEGER,   /* if like or comment the field below contains involved pic's id. */
     eventAt DATETIME,
+    unread BOOL DEFAULT 1,
     FOREIGN KEY(userDone) REFERENCES users(id)
         ON UPDATE CASCADE ON DELETE CASCADE,
     FOREIGN KEY(picInvolved) REFERENCES pics(id)
@@ -181,7 +181,20 @@ DROP PROCEDURE IF EXISTS followUser;
 DELIMITER $$
 CREATE PROCEDURE followUser (IN follower INT,IN followed INT)
 BEGIN
-    INSERT INTO followship(follower,followed) VALUES(follower,followed);
+    DECLARE yet INT DEFAULT NULL;
+    
+    SELECT COUNT(*) INTO yet FROM followship F WHERE F.follower = follower AND F.followed = followed;
+    
+    IF yet = 0 THEN
+        INSERT INTO followship(follower,followed) VALUES(follower,followed);
+        SELECT "f" AS state;
+    END IF;
+    
+    IF yet > 0  THEN
+        DELETE  F.* FROM followship F where F.follower = follower AND F.followed = followed;
+        SELECT "u" AS state;
+    END IF;
+    
 END $$
 DELIMITER ;
 

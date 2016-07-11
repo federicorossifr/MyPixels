@@ -104,12 +104,38 @@
     $data->utilityFilter($follower);
     $data->utilityFilter($followed);
     $query = "CALL followUser($follower,$followed)";
-    $result = $data->query($query);
+    $data->query($query);
 
     if($ajax)
-      echo $result;
+      echo $data->JSONResult();
     else
       return $result;
+  }
+
+
+  function getNotifies($userId,$ajax = 0) {
+  	global $data;
+  	$data->utilityFilter($userId);
+
+  	$query = "SELECT * FROM notifies WHERE userId=$userId AND unread=1 ORDER BY eventAt DESC";
+  	$data->query($query);
+
+  	if($ajax)
+  		echo $data->ExtendedJSONResult();
+  	else
+  		return $result;
+  }
+
+  function emptyNotifies($userId,$ajax = 0) {
+  	global $data;
+  	$data->utilityFilter($userId);
+
+  	$query = "UPDATE notifies SET unread = 0 WHERE userId = $userId";
+  	$data->query($query);
+  	if($ajax)
+  		echo $data->affected;
+  	else
+  		return $data->affected;
   }
 
   function userNameExists($username,$ajax = 0) {
