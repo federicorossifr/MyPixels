@@ -123,7 +123,7 @@
   	if($ajax)
   		echo $data->ExtendedJSONResult();
   	else
-  		return $result;
+  		return $data->arrayResult();
   }
 
   function emptyNotifies($userId,$ajax = 0) {
@@ -137,6 +137,35 @@
   	else
   		return $data->affected;
   }
+
+  function sendMessage($src,$dst,$message,$picId,$ajax = 0) {
+  	global $data;
+  	$data->utilityFilter($src);
+  	$data->utilityFilter($dst);
+  	$data->utilityFilter($message);
+  	$data->utilityFilter($picId);
+
+  	$query = "INSERT INTO messages(srcId,dstId,messageBody,picId) VALUES ($src,$dst,'$message',$picId)";
+  	$data->query($query);
+
+  	if($ajax)
+  		echo $data->insertedId;
+  	else
+  		return $data->insertedId;
+  }
+
+  function getMessages($userId,$ajax = 0) {
+  	global $data;
+  	$data->utilityFilter($userId);
+  	$query = "SELECT M.*,P.path,US.username AS us,UD.username AS ud FROM messages M INNER JOIN pics P ON P.id = M.picId INNER JOIN users US ON (M.srcId = US.id) INNER JOIN users UD ON M.dstId = UD.id WHERE M.dstId = $userId OR M.srcId = $userId  ORDER BY M.messageTime ASC ";
+  	$data->query($query);
+
+  	if($ajax)
+  		echo $data->ExtendedJSONResult();
+  	else
+  		return $data->arrayResult();
+  }
+
 
   function userNameExists($username,$ajax = 0) {
     global $data;
@@ -167,5 +196,9 @@
     unset($_SESSION['username']);
     unset($_SESSION['password']);
     session_destroy();
-    var_dump($_SESSION);
+  }
+
+  function getSession() {
+    session_start();
+    echo json_encode($_SESSION);
   }

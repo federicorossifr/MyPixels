@@ -1,6 +1,6 @@
 <?php
   require __DIR__ . "/userController.php";
-
+  require __DIR__ . "/picController.php";
   $action = $_GET['route'];
 
 
@@ -54,6 +54,30 @@
         $userId = $_SESSION['id'];
         emptyNotifies($userId,1);
         break;
+
+   	case 'sendMessage':
+   		session_start();
+        if(!isset($_SESSION['logged'])) break;
+        $userId = $_SESSION['id'];
+   		$dest = $_POST['dest'];
+   		$message = $_POST['message'];
+   		$picId = null;
+   		if(isset($_FILES['attachment']))
+   			$picId = createPic("",$_FILES['attachment'],$userId,1,0);
+   		sendMessage($userId,$dest,$message,$picId,1);
+   		break;
+
+   	case 'getMessages':
+   		session_start();
+        if(!isset($_SESSION['logged'])) break;
+   		$userId = $_SESSION['id'];
+   		getMessages($userId,1);
+   		break;
+
+
+   	case 'getSession':
+   		getSession();
+   		break;
 
 
     case 'follow':

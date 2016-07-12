@@ -6,7 +6,7 @@
   function saveFile($postFile,$path,$type) {
     $fileName = sha1_file($postFile['tmp_name']);
     move_uploaded_file($postFile['tmp_name'],"." . $path . $fileName . $type);
-    return $path . $fileName;
+    return $path . $fileName . $type;
   }
 
   //FUNZIONE DI UTILITA' PER IL CONTROLLO DEL FORMATO
@@ -19,7 +19,6 @@
   //create
   function createPic($description,$postFile,$user,$mime,$feed,$ajax = 0) {
     global $data;
-    $collection = $collection || null;
 
     $data->utilityFilter($description);
     $data->utilityFilter($path);
@@ -30,13 +29,13 @@
     if($mime == 1)
     	$path = saveFile($postFile, "./pics/",".jpeg");
     else
-    	$path = saveFile($postFile, "./pics",".mp4")
+    	$path = saveFile($postFile, "./pics",".mp4");  
     $query = "INSERT INTO pics(description,path,userId,mime,feed) VALUES('$description','$path',$user,$mime,$feed)";
     $result = $data->query($query,0);
 
     if($ajax) {
-      echo $result;
+      echo $data->insertedId;
     } else {
-      return $result;
+      return $data->insertedId;
     }
   }

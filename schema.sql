@@ -99,17 +99,21 @@ CREATE TABLE messages(
         ON UPDATE CASCADE ON DELETE CASCADE
 );
 
+DROP TABLE notifies;
 CREATE TABLE notifies (
     id INTEGER PRIMARY KEY AUTO_INCREMENT,
     userId INTEGER NOT NULL,
     actionDone VARCHAR(50) NOT NULL, /* COMMENT LIKE FOLLOW MESSAGE */
     userDone INTEGER,
+    messageId INTEGER,
     picInvolved INTEGER,   /* if like or comment the field below contains involved pic's id. */
     eventAt DATETIME,
     unread BOOL DEFAULT 1,
     FOREIGN KEY(userDone) REFERENCES users(id)
         ON UPDATE CASCADE ON DELETE CASCADE,
     FOREIGN KEY(picInvolved) REFERENCES pics(id)
+        ON UPDATE CASCADE ON DELETE CASCADE,
+    FOREIGN KEY(messageId) REFERENCES messages(id)
         ON UPDATE CASCADE ON DELETE CASCADE
 );
 
@@ -122,6 +126,7 @@ DROP TRIGGER IF EXISTS newComment;
 DROP TRIGGER IF EXISTS newMessage;
 DROP TRIGGER IF EXISTS tagPic;
 DROP TRIGGER IF EXISTS currTimePicCreated;
+DROP TRIGGER IF EXISTS currTimeMsgCreated;
 
 /* TRIGGERS FOR NOTIFY SYSTEM UPDATE */
 CREATE TRIGGER newFollower 
@@ -141,7 +146,7 @@ AFTER INSERT ON comments FOR EACH ROW
     
 CREATE TRIGGER newMessage
 AFTER INSERT ON messages FOR EACH ROW
-    INSERT INTO notifies(userId,actionDone,userDone,eventAt) VALUES(NEW.dstId,"MESSAGE",NEW.srcId,CURRENT_TIME);
+    INSERT INTO notifies(userId,actionDone,userDone,eventAt,messageId) VALUES(NEW.dstId,"MESSAGE",NEW.srcId,CURRENT_TIME,NEW.id);
     
 /************************************************************************************************************************************************************/    
 /***********************************************************************************************************************************************************/

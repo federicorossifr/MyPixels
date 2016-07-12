@@ -23,7 +23,7 @@ function post(formElement,callback) {
   };
 
   var data = new FormData();
-  var elements = formElement.querySelectorAll("input, select");
+  var elements = formElement.querySelectorAll("input, select, textarea");
   for (var i = 0; i < elements.length; i++) {
     var element = elements[i];
     if(element.type == "file") {

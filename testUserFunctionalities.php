@@ -45,6 +45,21 @@
           <ul id="notifies" style="display:none">
             
           </ul>
+          <hr>
+          <h3>Messages test</h3>
+            <form method="POST" id="messagesForm" enctype="multipart/form-data" action="./php/userRouter.php?route=sendMessage">
+              <label>To:</label>
+              <select name="dest" id="destinations"><<br>
+              </select>
+              <textarea name="message">Enter text here...</textarea><br>
+              <label>Attach:</label>
+              <input type="file" name="attachment">
+              <input type="submit" value="SEND">
+            </form>
+          <hr>
+          <h3>Message dump</h3>
+          <ul id="messageDump">
+          </ul>
       </div>
 
   </body>
@@ -74,10 +89,13 @@
           var users = JSON.parse(result).data;
           for(var i = 0; i < users.length; ++i) {
             appendOption(document.getElementById("users"),users[i].username,users[i].id);
-            if(users[i].id != loggedInUser.id)
+            if(users[i].id != loggedInUser.id) {
               appendOption(document.getElementById("followable"),users[i].username,users[i].id);
+              appendOption(document.getElementById("destinations"),users[i].username,users[i].id);            
+            }
           }
       });
+      get("./php/userRouter.php?route=getMessages",displayMessages);
     }
   }
 
@@ -97,9 +115,11 @@
     select.appendChild(option);
   }
 
-  function appendLi(ul,text) {
+  function appendLi(ul,text,additional) {
     var li = document.createElement("li");
     li.textContent = text;
+    if(additional)
+      li.appendChild(additional);
     ul.appendChild(li);
   }
 
@@ -137,13 +157,27 @@
     get("./php/userRouter.php?route=getNotifies",notifiesGot);
   }
 
+  function displayMessages(result) {
+    var dataObj = JSON.parse(result);
+    var messages = dataObj.data;
+    empty(document.getElementById("messageDump"));
+    for(var i = 0; i < messages.length; ++i) {
+      var liText = "";
+      if(messages[i].srcId == loggedInUser.id) liText+= "Sent to:"+ messages[i].ud +"-->";
+      if(messages[i].dstId == loggedInUser.id) liText+= "Received from:"+ messages[i].us +"-->";
+      liText+=messages[i].messageBody;
+      var attached = document.createElement("img");
+      attached.src = messages[i].path;
+      attached.width = "100";
+      appendLi(document.getElementById("messageDump"),liText,attached);
+
+    }
+  }
+
 	setAjax(document.getElementById("registerForm"),logTest);
 	setAjax(document.getElementById("loginForm"),loginCompleted);
 	setAjax(document.getElementById("readForm"),logTest);
   setAjax(document.getElementById("followForm"),logTest);
-
- 
-
-
+  setAjax(document.getElementById("messagesForm"),logTest);
 </script>
 </html>
