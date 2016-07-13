@@ -26,14 +26,23 @@ function post(formElement,callback) {
   var elements = formElement.querySelectorAll("input, select, textarea");
   for (var i = 0; i < elements.length; i++) {
     var element = elements[i];
+
+
+
     if(element.type == "file") {
       var files = element.files;
       for (var j = 0; j < files.length; j++) {
         var file = files[j]
         data.append(element.name,file);
       }
-    } else
-      data.append(element.name,element.value);
+    } else {
+      if(element.type == "radio") {
+        if(element.checked) {
+          console.log("Radio checked");
+          data.append(element.name,element.value);
+        }
+      } else data.append(element.name,element.value);
+    }
   }
 
   client.open("POST",formElement.action);
@@ -53,7 +62,6 @@ function setAjax(formElement,callback) {
       default:
         var url = formElement.action + "&";
         var inputs = formElement.querySelectorAll("input, select");
-        console.log(inputs.length);
         for(var i = 0; i < inputs.length; ++i) {
           if(inputs[i].type == "submit")
             continue;
@@ -61,7 +69,6 @@ function setAjax(formElement,callback) {
           if(i < inputs.length - 2)
             url += "&";
         }
-        console.log(url);
         get(url,callback);
     }
   }
