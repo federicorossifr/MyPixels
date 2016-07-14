@@ -76,13 +76,41 @@
     }
   }
 
+  function getFeed($userId,$ajax = 0) {
+    global $data;
+    $data->utilityFilter($userId);
+
+    $query = "SELECT * FROM extendedPics EP WHERE EP.userId IN (SELECT followed FROM followship WHERE follower = $userId) OR EP.userId = $userId";
+    $data->query($query);
+
+    if($ajax)
+      echo $data->ExtendedJSONResult();
+    else
+      return $data->arrayResult();
+  }
+
+  function likePic($userId,$picId,$vote,$ajax = 0) {
+    global $data;
+    $data->utilityFilter($userId);
+    $data->utilityFilter($picId);
+    $data->utilityFilter($vote);
+
+    $query = "CALL likePic($userId,$picId,$vote)";
+    $data->query($query);
+
+    if($ajax)
+      echo $data->JSONResult();
+    else
+      return $data->arrayResult();
+  }
+
 
   /*** DEBUG GET ALL PICS ***/
   function readAll2($ajax = 0) {
     global $data;
 
 
-    $query = "SELECT id FROM pics";
+    $query = "SELECT id FROM pics ORDER BY created DESC ";
 
     $data->query($query);
 

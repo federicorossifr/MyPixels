@@ -6,7 +6,8 @@
     <title>Pxls - My pixels</title>
   </head>
   <body>
-  		<h1>Register Test</h1>
+      <a href="./">Back</a>
+    	<h1>Register Test</h1>
   		<form id="registerForm" method="POST" action="./php/userRouter.php?route=createUser">
   			<input type="text" name="username">
   			<input type="text" name="password">

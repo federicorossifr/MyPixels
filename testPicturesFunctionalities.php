@@ -6,6 +6,8 @@
     <title>Pxls - My pixels</title>
   </head>
   <body>
+      <a href="./">Back</a>
+      <a id="sessionA" href="./php/userRouter.php?route=getSession">Session?</a>
   		<h1>Register Test</h1>
   		<form id="registerForm" method="POST" action="./php/userRouter.php?route=createUser">
   			<input type="text" name="username">
@@ -41,6 +43,9 @@
           <input type="radio" name="mime" value="0">Video
           <input type="submit" value="UPLOAD">
         </form>
+        <hr>
+        <h1>Feed</h1>
+        <div id="feed"></div>
       </div>
   </body>
 
@@ -63,6 +68,8 @@
       document.getElementById("logout").textContent = "Logged as: " + user[0].username + " Logout";
       document.getElementById("loginForm").style.display = "none";
       loggedInUser = user[0];
+
+      get("./php/picRouter.php?route=getFeed",showPics);
   }
 
   function loginCompleted(result) {
@@ -100,9 +107,7 @@
     get("./php/userRouter.php?route=logout",logoutCompleted);
   }
 
-  function showPic(result) {
-    var dataObj = JSON.parse(result);
-    var pic = dataObj.data[0];
+  function displayPic(container,pic) {
     var picElement;
     if(pic.mime == 1) {
       picElement = document.createElement("img");
@@ -111,12 +116,55 @@
     }
     picElement.src = pic.path;
 
+    var info = document.createElement("div");
+    info.style.display = "block";
+    var user = document.createElement("span");
+    user.style.fontWeight = "bolder";
+    user.textContent = "By: " + pic.username;
+    var time = document.createElement("span");
+    time.textContent = "At: " + pic.created;
+    time.style.marginLeft = "10px";
     var description = document.createElement("p");
     description.textContent = pic.description;
 
-    empty(document.getElementById("picContainer"));
-    document.getElementById("picContainer").appendChild(picElement);
-    document.getElementById("picContainer").appendChild(description);
+    var likeA = document.createElement("a");
+    makeAjaxAnchor(likeA,logTest);
+    likeA.textContent = "I like it! ("+ pic.up +")";
+    likeA.href = "./php/picRouter.php?route=likePic&picId="+pic.id+"&vote=1";
+    var unlikeA = document.createElement("a");
+    unlikeA.textContent = "I don't like it ("+ pic.down + ")";
+    makeAjaxAnchor(unlikeA,logTest);
+    unlikeA.href = "./php/picRouter.php?route=likePic&picId="+pic.id+"&vote=0";
+
+    empty(container);
+    info.appendChild(user);
+    info.appendChild(time);
+    container.appendChild(info);
+    container.appendChild(picElement);
+    container.appendChild(description);
+    container.appendChild(document.createElement("br"));
+    container.appendChild(likeA);
+    container.appendChild(document.createElement("br"));    
+    container.appendChild(unlikeA);
+  }
+
+  function showPic(result) {
+    var dataObj = JSON.parse(result);
+    var pic = dataObj.data[0];
+    displayPic(document.getElementById("picContainer"),pic);
+  }
+
+  function showPics(result) {
+    var dataObj = JSON.parse(result);
+    var pics = dataObj.data;
+    var containers = [];
+    var feed = document.getElementById("feed");
+    empty(feed);
+    for(var i = 0; i < pics.length; ++i) {
+      containers[i] = document.createElement("div");
+      displayPic(containers[i],pics[i]);
+      feed.appendChild(containers[i]);
+    }
   }
 
 
@@ -139,6 +187,13 @@
       appendOption(document.getElementById("pics"),pics[i].id,pics[i].id);
     }
   })
+
+
+  
+
+  makeAjaxAnchor(document.getElementById("sessionA"),logTest);
+
+
 
 </script>
 </html>

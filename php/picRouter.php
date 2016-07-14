@@ -21,6 +21,22 @@
         readPic($picId,1);
         break;
 
+    case 'getFeed':
+        session_start();
+        if(!isset($_SESSION['logged'])) break;
+        $userId = $_SESSION['id'];
+        getFeed($userId,1);
+        break;
+
+    case 'likePic':
+        session_start();
+        if(!isset($_SESSION['logged'])) break;
+        $userId = $_SESSION['id'];
+        $picId = $_GET['picId'];
+        $vote = $_GET['vote'];
+        likePic($userId,$picId,$vote,1);
+        break;
+
     case 'readAll':
         readAll2(1);
         break;

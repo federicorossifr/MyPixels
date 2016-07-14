@@ -73,3 +73,13 @@ function setAjax(formElement,callback) {
     }
   }
 }
+
+function makeAjaxAnchor(anchor,callback) {
+    anchor.onclick = function(event) {
+      event.preventDefault();
+      event.stopPropagation();
+
+      get(anchor.href,callback);
+
+    }
+  }
