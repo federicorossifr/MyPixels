@@ -74,6 +74,19 @@
    		getMessages($userId,1);
    		break;
 
+   	case 'getFollowed':
+   		session_start();
+   		if(!isset($_SESSION['logged'])) break;
+   		$userId = $_SESSION['id'];
+   		getFollow($userId,1,1);
+   		break;
+
+   	case 'getFollowers':
+		session_start();
+   		if(!isset($_SESSION['logged'])) break;
+   		$userId = $_SESSION['id'];
+   		getFollow($userId,0,1);
+   		break;	
 
    	case 'getSession':
    		getSession();

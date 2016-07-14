@@ -10,14 +10,27 @@
   }
 
   //FUNZIONE DI UTILITA' PER IL CONTROLLO DEL FORMATO
-  function checkFormat($postFile,$type) {
+  function checkFormat($postFile,$type,$field) {
+    $imgAccepted = array("jpg","jpeg","png");
+    $vidAccepted = array("mp4");
 
+    $postedFileName = $_FILES[$field]['name'];
+    $postedFileExtension = pathinfo($postedFileName,PATHINFO_EXTENSION);
+    $isImg = in_array($postedFileExtension, $imgAccepted);
+    $isVid = in_array($postedFileExtension, $vidAccepted);
 
+    if($type == 1 && $isImg) {
+      return true;
+    }
+    if($type == 0 && $isVid) {
+      return true;
+    }
 
+    return false;
   }
 
   //create
-  function createPic($description,$postFile,$user,$mime,$feed,$ajax = 0) {
+  function createPic($description,$postFile,$user,$mime,$feed,$field,$ajax = 0) {
     global $data;
 
     $data->utilityFilter($description);
@@ -25,6 +38,11 @@
     $data->utilityFilter($user);
     $data->utilityFilter($mime);
     $data->utilityFilter($feed);
+
+
+    if(!checkFormat($postFile,$mime,$field)) {
+     die("Format error");
+    }
 
     if($mime == 1)
     	$path = saveFile($postFile, "./pics/",".jpeg");
@@ -38,4 +56,38 @@
     } else {
       return $data->insertedId;
     }
+  }
+
+
+  //read
+  function readPic($picId,$ajax = 0) {
+    global $data;
+
+    $data->utilityFilter($picId);
+
+    $query = "SELECT * FROM pics WHERE id = $picId";
+
+    $data->query($query);
+
+    if($ajax)
+      echo $data->ExtendedJSONResult();
+    else {
+      return $data->arrayResult();
+    }
+  }
+
+
+  /*** DEBUG GET ALL PICS ***/
+  function readAll2($ajax = 0) {
+    global $data;
+
+
+    $query = "SELECT id FROM pics";
+
+    $data->query($query);
+
+    if($ajax)
+      echo $data->ExtendedJSONResult();
+    else 
+      return $data->arrayResult();    
   }

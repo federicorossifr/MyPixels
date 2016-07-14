@@ -112,6 +112,24 @@
       return $result;
   }
 
+  function getFollow($userId,$followType,$ajax = 0) {
+  	global $data;
+  	$data->utilityFilter($userId);
+  	$query = "";
+
+  	if($followType == 1) //userId as follower
+  		$query = "SELECT * FROM followship INNER JOIN users ON id = followed WHERE follower = $userId";
+  	else
+  		$query = "SELECT * FROM followship INNER JOIN users ON id = follower WHERE followed = $userId";
+
+  	$data->query($query);
+
+  	if($ajax)
+  		echo $data->ExtendedJSONResult();
+  	else
+  		return $data->arrayResult();
+  }
+
 
   function getNotifies($userId,$ajax = 0) {
   	global $data;
@@ -200,5 +218,7 @@
 
   function getSession() {
     session_start();
-    echo json_encode($_SESSION);
+    $response['data'] = $_SESSION;
+    $response['length'] = count($_SESSION);
+   	echo json_encode($response);
   }

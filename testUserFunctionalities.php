@@ -32,6 +32,10 @@
       <div style="display:none" id="loggedin">
         <h1>Logged-in section</h1>
           <h3>Follow Test</h3>
+          Followers:
+          <select id="followers"></select><br>
+          Followed:
+          <select id="followed"></select><br>
           <form id="followForm" method="POST" action="./php/userRouter.php?route=follow">
             <select name="followed" id="followable">
               
@@ -47,7 +51,7 @@
           </ul>
           <hr>
           <h3>Messages test</h3>
-            <form method="POST" id="messagesForm" enctype="multipart/form-data" action="./php/userRouter.php?route=sendMessage">
+          <form method="POST" id="messagesForm" enctype="multipart/form-data" action="./php/userRouter.php?route=sendMessage">
               <label>To:</label>
               <select name="dest" id="destinations"><<br>
               </select>
@@ -55,7 +59,7 @@
               <label>Attach:</label>
               <input type="file" name="attachment">
               <input type="submit" value="SEND">
-            </form>
+          </form>
           <hr>
           <h3>Message dump</h3>
           <ul id="messageDump">
@@ -77,11 +81,10 @@
       element.removeChild(element.firstChild);
   }
 
-  function loginCompleted(result) {
-    var user = JSON.parse(result);
-    if(user.length) {
+  function logInActions(user) {
       document.getElementById("loggedin").style.display = "block";
       document.getElementById("logout").style.display = "block";
+      document.getElementById("logout").textContent = "Logged as: " + user[0].username + " Logout";
       document.getElementById("loginForm").style.display = "none";
       document.getElementById("readNotifies").disabled = 1;
       loggedInUser = user[0];
@@ -96,6 +99,22 @@
           }
       });
       get("./php/userRouter.php?route=getMessages",displayMessages);
+      get("./php/userRouter.php?route=getFollowers",function(result) {
+        var users = JSON.parse(result).data;
+        for(var i = 0; i < users.length; ++i)
+          appendOption(document.getElementById("followers"),users[i].username,users[i].id);
+      });
+      get("./php/userRouter.php?route=getFollowed",function(result) {
+        var users = JSON.parse(result).data;
+        for(var i = 0; i < users.length; ++i)
+          appendOption(document.getElementById("followed"),users[i].username,users[i].id);
+      });    
+  }
+
+  function loginCompleted(result) {
+    var user = JSON.parse(result);
+    if(user.length) {
+      logInActions(user);
     }
   }
 
@@ -179,5 +198,13 @@
 	setAjax(document.getElementById("readForm"),logTest);
   setAjax(document.getElementById("followForm"),logTest);
   setAjax(document.getElementById("messagesForm"),logTest);
+
+
+  get("./php/userRouter.php?route=getSession",function(result) {
+    var dataObj = JSON.parse(result);
+    if(!dataObj.length) return;
+    user = [dataObj.data];
+    logInActions(user);
+  });
 </script>
 </html>
