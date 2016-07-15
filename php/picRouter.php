@@ -37,6 +37,20 @@
         likePic($userId,$picId,$vote,1);
         break;
 
+    case 'commentPic':
+        session_start();
+        if(!isset($_SESSION['logged'])) break;
+        $userId = $_SESSION['id'];
+        $picId = $_POST['picId'];
+        $comment = $_POST['comment'];
+        commentPic($userId,$picId,$comment,1);
+        break;
+
+    case 'getPicComments':
+        $picId = $_GET['picId'];
+        getPicComments($picId,1);
+        break;
+
     case 'readAll':
         readAll2(1);
         break;

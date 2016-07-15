@@ -7,7 +7,6 @@
   </head>
   <body>
       <a href="./">Back</a>
-      <a id="sessionA" href="./php/userRouter.php?route=getSession">Session?</a>
   		<h1>Register Test</h1>
   		<form id="registerForm" method="POST" action="./php/userRouter.php?route=createUser">
   			<input type="text" name="username">
@@ -136,6 +135,36 @@
     makeAjaxAnchor(unlikeA,logTest);
     unlikeA.href = "./php/picRouter.php?route=likePic&picId="+pic.id+"&vote=0";
 
+    var commentDiv = document.createElement("div");
+    get("./php/picRouter.php?route=getPicComments&picId="+pic.id,function(result) {
+      var dataObj = JSON.parse(result);
+      var comments = dataObj.data;
+      var spans = [];
+      for(var i = 0; i < comments.length; ++i) {
+        spans[i] = document.createElement("span");
+        spans[i].textContent = "By: "+comments[i].username + " --> " + comments[i].commentBody;
+        commentDiv.appendChild(spans[i]);
+      }
+    })
+
+    var commentForm = document.createElement("form");
+    commentForm.method ="POST";
+    commentForm.action = "./php/picRouter.php?route=commentPic";
+    var commentField = document.createElement("input");
+    commentField.type = "text";
+    commentField.name = "comment";
+    var picField = document.createElement("input");
+    picField.type = "hidden";
+    picField.name = "picId";
+    picField.value = pic.id;
+    var submitButton = document.createElement("input");
+    submitButton.type ="submit";
+    submitButton.value="SEND";
+    commentForm.appendChild(picField);
+    commentForm.appendChild(commentField);
+    commentForm.appendChild(submitButton);
+    setAjax(commentForm,logTest);
+
     empty(container);
     info.appendChild(user);
     info.appendChild(time);
@@ -146,6 +175,8 @@
     container.appendChild(likeA);
     container.appendChild(document.createElement("br"));    
     container.appendChild(unlikeA);
+    container.appendChild(commentDiv);
+    container.appendChild(commentForm);
   }
 
   function showPic(result) {
@@ -191,7 +222,6 @@
 
   
 
-  makeAjaxAnchor(document.getElementById("sessionA"),logTest);
 
 
 

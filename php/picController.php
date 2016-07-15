@@ -105,6 +105,35 @@
   }
 
 
+  function commentPic($userId,$picId,$comment,$ajax = 0) {
+    global $data;
+    $data->utilityFilter($userId);
+    $data->utilityFilter($picId);
+    $data->utilityFilter($comment);
+
+    $query = "INSERT INTO comments(userId,picId,commentBody) VALUES($userId,$picId,'$comment')";
+    $data->query($query);
+
+    if($ajax)
+      echo $data->insertedId;
+    else
+      return $data->insertedId;
+  }
+
+  function getPicComments($picId,$ajax = 0) {
+    global $data;
+    $data->utilityFilter($picId);
+
+    $query = "SELECT C.*,U.username FROM comments C INNER JOIN users U ON C.userId = U.id WHERE C.picId = $picId";
+    $data->query($query);
+
+    if($ajax)
+      echo $data->ExtendedJSONResult();
+    else
+      return $data->arrayResult();
+  }
+
+
   /*** DEBUG GET ALL PICS ***/
   function readAll2($ajax = 0) {
     global $data;
