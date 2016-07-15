@@ -163,7 +163,11 @@
   	$data->utilityFilter($message);
   	$data->utilityFilter($picId);
 
-  	$query = "INSERT INTO messages(srcId,dstId,messageBody,picId) VALUES ($src,$dst,'$message',$picId)";
+    $query = "";
+    if(!$picId)
+  	 $query = "INSERT INTO messages(srcId,dstId,messageBody,picId) VALUES ($src,$dst,'$message',NULL)";
+    else
+      $query = "INSERT INTO messages(srcId,dstId,messageBody,picId) VALUES ($src,$dst,'$message',$picId)";
   	$data->query($query);
 
   	if($ajax)
@@ -175,7 +179,7 @@
   function getMessages($userId,$ajax = 0) {
   	global $data;
   	$data->utilityFilter($userId);
-  	$query = "SELECT M.*,P.path,US.username AS us,UD.username AS ud FROM messages M INNER JOIN pics P ON P.id = M.picId INNER JOIN users US ON (M.srcId = US.id) INNER JOIN users UD ON M.dstId = UD.id WHERE M.dstId = $userId OR M.srcId = $userId  ORDER BY M.messageTime ASC ";
+  	$query = "SELECT M.*,P.path,US.username AS us,UD.username AS ud FROM messages M LEFT OUTER JOIN pics P ON P.id = M.picId INNER JOIN users US ON (M.srcId = US.id) INNER JOIN users UD ON M.dstId = UD.id WHERE M.dstId = $userId OR M.srcId = $userId  ORDER BY M.messageTime ASC ";
   	$data->query($query);
 
   	if($ajax)

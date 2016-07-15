@@ -63,7 +63,7 @@
    		$message = $_POST['message'];
    		$picId = null;
    		if(isset($_FILES['attachment']))
-   			$picId = createPic("",$_FILES['attachment'],$userId,1,0);
+   			$picId = createPic("",$_FILES['attachment'],$userId,1,0,"attachment",0);
    		sendMessage($userId,$dest,$message,$picId,1);
    		break;
 

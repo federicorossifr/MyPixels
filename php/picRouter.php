@@ -13,7 +13,9 @@
         $description = $_POST['description'];
         $postFile = $_FILES['pic'];
         $mime = $_POST['mime'];
-        createPic($description,$postFile,$userId,$mime,1,'pic',1);
+        $tags = json_decode($_POST['tags']);
+        $newId = createPic($description,$postFile,$userId,$mime,1,'pic',0);
+        tagPic($newId,$tags,1);
       break;
 
     case 'readPic':
@@ -49,6 +51,11 @@
     case 'getPicComments':
         $picId = $_GET['picId'];
         getPicComments($picId,1);
+        break;
+
+    case 'getTags':
+        $picId = $_GET['picId'];
+        getPicTags($picId,1);
         break;
 
     case 'readAll':

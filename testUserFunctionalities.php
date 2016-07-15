@@ -186,9 +186,12 @@
       if(messages[i].srcId == loggedInUser.id) liText+= "Sent to:"+ messages[i].ud +"-->";
       if(messages[i].dstId == loggedInUser.id) liText+= "Received from:"+ messages[i].us +"-->";
       liText+=messages[i].messageBody;
-      var attached = document.createElement("img");
-      attached.src = messages[i].path;
-      attached.width = "100";
+
+      if(messages[i].path) {
+        var attached = document.createElement("img");
+        attached.src = messages[i].path;
+        attached.width = "100";
+      }
       appendLi(document.getElementById("messageDump"),liText,attached);
 
     }

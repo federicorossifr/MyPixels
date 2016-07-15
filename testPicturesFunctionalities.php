@@ -2,8 +2,19 @@
 <html>
   <head>
   	<script type="text/javascript" src="./js/ajax.js"></script>
+    <script type="text/javascript" src="./js/forms.js"></script>
     <meta charset="utf-8">
     <title>Pxls - My pixels</title>
+    <style type="text/css">
+      .hashtag {
+          color: white;
+          background: lightblue;
+          display: inline-block;
+          padding: 5px;
+          margin: 2px;
+          cursor: pointer;
+      }
+    </style>
   </head>
   <body>
       <a href="./">Back</a>
@@ -36,12 +47,15 @@
         <h1>Logged-in section</h1>
         <h3>Create Pic test</h3>
         <form id="createPicForm" method="POST" enctype="multipart/form-data" action="./php/picRouter.php?route=createPic">
-          <textarea name="description">Description...</textarea>
-          <input type="file" name="pic">
+          <textarea name="description" id="input">Description...</textarea>
+          <input type="file" name="pic" >
+          <input type="hidden" name="tags" id="memory">
           <input type="radio" name="mime" value="1">Image
           <input type="radio" name="mime" value="0">Video
           <input type="submit" value="UPLOAD">
         </form>
+        <br>
+        <p id="display"></p>
         <hr>
         <h1>Feed</h1>
         <div id="feed"></div>
@@ -147,6 +161,20 @@
       }
     })
 
+
+    var tagDiv = document.createElement("div");
+    get("./php/picRouter.php?route=getTags&picId="+pic.id,function(result) {
+      var dataObj = JSON.parse(result);
+      var tags = dataObj.data;
+      var spans = [];
+      for(var i = 0; i < tags.length; ++i) {
+        spans[i] = document.createElement("span");
+        spans[i].className = "hashtag";
+        spans[i].textContent = tags[i].tagName;
+        tagDiv.appendChild(spans[i]);
+      }
+    });
+
     var commentForm = document.createElement("form");
     commentForm.method ="POST";
     commentForm.action = "./php/picRouter.php?route=commentPic";
@@ -171,6 +199,7 @@
     container.appendChild(info);
     container.appendChild(picElement);
     container.appendChild(description);
+    container.appendChild(tagDiv);
     container.appendChild(document.createElement("br"));
     container.appendChild(likeA);
     container.appendChild(document.createElement("br"));    
@@ -217,7 +246,9 @@
     for(var i = 0; i < pics.length; ++i) {
       appendOption(document.getElementById("pics"),pics[i].id,pics[i].id);
     }
-  })
+  });
+
+  catchTags(document.getElementById("input"),document.getElementById("memory"),document.getElementById("display"));
 
 
   

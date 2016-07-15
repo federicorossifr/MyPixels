@@ -65,7 +65,7 @@
 
     $data->utilityFilter($picId);
 
-    $query = "SELECT * FROM pics WHERE id = $picId";
+    $query = "SELECT * FROM extendedPics WHERE id = $picId";
 
     $data->query($query);
 
@@ -120,6 +120,22 @@
       return $data->insertedId;
   }
 
+  function tagPic($picId,$tags,$ajax = 0) {
+    global $data;
+    $result = 0;
+    $data->utilityFilter($userId);
+    $baseQuery = "CALL tagPic($picId,'";
+    for($i = 0; $i < count($tags); ++$i) {
+      $data->utilityFilter($tags[$i]);
+      $result += $data->query($baseQuery . $tags[$i] . "')");
+    }
+    if($ajax) {
+      echo $result;
+    } else {
+      return $result;
+    }
+  }
+
   function getPicComments($picId,$ajax = 0) {
     global $data;
     $data->utilityFilter($picId);
@@ -131,6 +147,19 @@
       echo $data->ExtendedJSONResult();
     else
       return $data->arrayResult();
+  }
+
+  function getPicTags($picId,$ajax = 0) {
+    global $data;
+    $data->utilityFilter($picId);
+
+    $query = "SELECT TT.* FROM pics P INNER JOIN tagship T ON P.id = T.picId INNER JOIN tags TT ON T.tagId = TT.id WHERE P.id = $picId";
+    $data->query($query);
+
+    if($ajax)
+      echo $data->ExtendedJSONResult();
+    else
+      return $data->arrayResult();    
   }
 
 
