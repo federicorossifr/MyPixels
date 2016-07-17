@@ -7,12 +7,21 @@
 	<?php include "./layout/head.php"; ?>
 <body>
 	<?php include "./layout/topBar.php"; ?>
+	<aside id="orderPics">
+		<div class="select-styler">
+			<select id="orderSelector" >
+				<option value="up">By thumbs up</option>
+				<option value="down">By thumbs down</option>
+				<option value="comment">By comments</option>
+				<option value="date" selected>By date</option>
+			</select>
+		</div>
+	</aside>
 	<main id="picturesContainer" class="flex-parent">
 
 	</main>
 </body>
 
-<script type="text/javascript" src="./js/globals.js"></script>
 <script type="text/javascript">
 	get("./php/userRouter.php?route=getSession",function(result) {
     	var dataObj = JSON.parse(result);
@@ -28,64 +37,9 @@
 		});
   	}
 
-  	function displayPic(container,pic) {
-  		var picElement;
-	    if(pic.mime == 1) {
-	      picElement = document.createElement("img");
-	    } else {
-	      picElement = document.createElement("video");
-	    }
-	    picElement.src = pic.path;
-	    picElement.className = "flexible-img";
-
-	    var hoverMore = document.createElement("div");
-	    hoverMore.className = "pic-details";
-
-	    var moreContent = document.createElement("div");
-	   
-	    var tup = document.createElement("img");
-	    tup.src = "./res/thumb.png";
-	    tup.className = "thumb-up";
-	    var tupCount = document.createElement("span");
-	    tupCount.textContent = pic.up;
-
-	    var tdown = document.createElement("img");
-	    tdown.src = "./res/thumb.png";
-	   	tdown.className = "thumb-down";
-	   	var tdownCount = document.createElement("span");
-	    tdownCount.textContent = pic.down;
-
-	    moreContent.appendChild(tupCount);
-	   	moreContent.appendChild(tup);
-	   	moreContent.appendChild(tdownCount); 
-	   	moreContent.appendChild(tdown);
-
-
-
-	   	hoverMore.appendChild(moreContent);
-
-	    empty(container);
-	    container.appendChild(picElement);
-	    container.appendChild(hoverMore);
-	    return moreContent;
-  	}
-
-  	function picsLoaded(result,feedContainer) {
-  		var dataObj = JSON.parse(result);
-    	var pics = dataObj.data;
-   		var containers = [];
-    	empty(feedContainer);
-    	for(var i = 0; i < pics.length; ++i) {
-      		containers[i] = document.createElement("div");
-      		containers[i].className = "item flex flex-3"
-      		var contentToCenter = displayPic(containers[i],pics[i]);
-      		feedContainer.appendChild(containers[i]);
-
-      		var contentSizes = getRenderedSizes(contentToCenter);
-      		var containerSizes = getRenderedSizes(containers[i]);
-      		var leftProp = (containerSizes.width - contentSizes.width)/2;
-      		contentToCenter.style.left = leftProp + "px";
-    	}
+  	document.getElementById("orderSelector").onchange = function(event) {
+  		this.blur();
+  		doSort(event.target.value,document.getElementById("picturesContainer"));
   	}
 
 

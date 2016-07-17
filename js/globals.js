@@ -1,3 +1,4 @@
 var globals = {
-	"loggedUser": {}
+	"loggedUser": {},
+	"pics":[]
 }
