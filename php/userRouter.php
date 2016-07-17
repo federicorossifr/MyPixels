@@ -89,7 +89,7 @@
    		break;	
 
    	case 'getSession':
-   		getSession();
+   		getSession(1);
    		break;
 
 

@@ -50,6 +50,7 @@ function post(formElement,callback) {
 }
 
 function setAjax(formElement,callback) {
+  if(!formElement) return;
   formElement.onsubmit = function(event) {
     event.preventDefault();
     event.stopPropagation();

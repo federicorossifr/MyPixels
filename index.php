@@ -11,7 +11,9 @@
 	<link rel="stylesheet" type="text/css" href="./css/topbar.css">
 	<link rel="stylesheet" type="text/css" href="./css/flex.css">
 	<link rel="stylesheet" type="text/css" href="./css/form.css">
+	<link rel="stylesheet" type="text/css" href="./css/modal.css">
 	<script type="text/javascript" src="./js/ajax.js"></script>
+	<script type="text/javascript" src="./js/modal.js"></script>
 </head>
 <body>
 	<?php include "./layout/topBar.php"; ?>
@@ -31,15 +33,29 @@
 				<input type="submit" class="submitButton regular wide" value="Iscriviti" >
 			</form>
 		</div>
+
 	</main>
+
+
+	<div id="gpModal" class="modal">
+		<div class="modal-body">
+		<a class="modal-close" onclick="hideModal(this.parentNode.parentNode)">&times;</a>
+		<p id="modalText"></p>
+		</div>
+	</div>
 </body>
 
 <script type="text/javascript">
-	function logTest(result) {
-		alert(result);
+	function loginCompleted(result) {
+		var resultObj = JSON.parse(result);
+		if(!resultObj.length) {
+			document.getElementById("modalText").textContent = "Username o password scorrette";
+			showModal(document.getElementById("gpModal"));
+		}
 	}
 
-	setAjax(document.getElementById("loginForm"),logTest);
-	setAjax(document.getElementById("registerForm"),logTest);
+
+	setAjax(document.getElementById("loginForm"),loginCompleted);
+	setAjax(document.getElementById("registerForm"),alert);
 </script>
 </html>
