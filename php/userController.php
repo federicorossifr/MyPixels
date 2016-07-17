@@ -220,9 +220,12 @@
     session_destroy();
   }
 
-  function getSession() {
+  function getSession($ajax = 0) {
     session_start();
     $response['data'] = $_SESSION;
     $response['length'] = count($_SESSION);
-   	echo json_encode($response);
+    if($ajax)
+   	  echo json_encode($response);
+    else
+      return $response;
   }

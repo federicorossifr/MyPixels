@@ -1,0 +1,52 @@
+#container {
+  display: flex;
+  flex-flow: row wrap;
+}
+
+.item {
+  flex-basis: 33.33333333%;
+  background-color: transparent;
+  border:5px solid white;
+  box-sizing:border-box;
+  transition: height 200ms ease-in-out;
+  overflow: hidden;
+}
+
+.item img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+
+.flex-parent {
+  display: flex;
+  flex-flow: row wrap;
+}
+
+main.flex-parent {
+  width:70%;
+  margin: 0 auto;
+  padding-top:100px;
+}
+
+
+
+.flexible-img {
+  width: 100%;
+}
+
+
+.flex-2 {
+  flex-basis: 50%;
+  box-sizing: border-box;
+  border: 5px solid transparent;
+}
+
+.flex-3 {
+  flex-basis: 33.333333%;
+}
+
+.flex-4 {
+  flex-basis: 25%;
+}

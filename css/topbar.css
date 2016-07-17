@@ -1,12 +1,11 @@
 #topBar {
 	position: relative;
 	background-color: white;
-  	border-bottom:1px solid rgba(0,0,0,0.10);
+  border-bottom:1px solid rgba(0,0,0,0.10);
 	padding-left:50px;
 	padding-right: 50px;
 	padding-top:25px;
 	padding-bottom:25px;
-	font-size:20px;
 }
 
 #topBar:after { 
@@ -54,4 +53,12 @@
 #topBar > .brand {
 	display: inline-flex;
 	text-decoration: none;
+	color: white;
+	font-size:15px;
+	padding:5px 20px;
+	letter-spacing: 2px;
+	border:1px solid #3897f0;
+	border-radius: 5px;
+	box-sizing: border-box;
+	background-color:#3897f0;
 }

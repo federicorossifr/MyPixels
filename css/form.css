@@ -1,0 +1,35 @@
+.navForm {
+  float:right;
+}
+
+form {
+  font-size:15px;
+  text-align:center;
+}
+
+input[type="text"],input[type="password"] {
+  border: 1px solid rgba(0,0,0,0.15);
+  padding:5px;
+  font-size:15px;  
+  color:rgba(0,0,0,0.50);
+}
+
+input[type="text"]:focus,input[type="password"]:focus {
+  border:1px solid rgba(0,0,0,0.30);
+}
+
+input[type=submit].submitButton {
+  border:none;
+  padding:5px 20px;
+  color:white;
+  background-color: #3897f0;
+  font-size:15px;
+  cursor: pointer; 
+}
+
+input.wide {
+  width:80%;
+  margin-bottom: 5px;
+  box-sizing: border-box;
+}
+
