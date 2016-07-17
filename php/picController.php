@@ -80,7 +80,7 @@
     global $data;
     $data->utilityFilter($userId);
 
-    $query = "SELECT * FROM extendedPics EP WHERE EP.userId IN (SELECT followed FROM followship WHERE follower = $userId) OR EP.userId = $userId";
+    $query = "SELECT *,(SELECT L.upvote FROM likes  L WHERE L.userid = $userId AND  L.picId = EP.id) AS userLiked FROM extendedPics EP WHERE EP.userId IN (SELECT followed FROM followship WHERE follower = $userId) OR EP.userId = $userId";
     $data->query($query);
 
     if($ajax)

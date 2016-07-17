@@ -1,3 +1,64 @@
+/* FUNZIONI DI APPOGGIO PER LA CREAZIONE DEGLI ELEMENTI DI UN ELEMENTO PIC */
+function makeMoreContent(pic) {
+	var moreContent = document.createElement("div");
+
+
+    /*thumb up*/
+   	var tupA = document.createElement("a");
+    var tup = document.createElement("img");
+   	if(pic.userLiked == 1)
+    	tup.src = "./res/thumbActive.png";
+    else
+    	tup.src = "./res/thumb.png";
+    tup.className = "thumb-up";
+    var tupCount = document.createElement("span");
+    tupCount.textContent = pic.up;
+    tupA.appendChild(tup);
+
+
+    /*thumb down*/
+    var tdownA = document.createElement("a");
+    var tdown = document.createElement("img");
+    if(pic.userLiked == 0)
+    	tdown.src = "./res/thumbActive.png";
+    else
+    	tdown.src = "./res/thumb.png";
+   	tdown.className = "thumb-down";
+   	var tdownCount = document.createElement("span");
+    tdownCount.textContent = pic.down;
+    tdownA.appendChild(tdown);
+   
+    setThumbAction(tdownA,tupA,pic,tupCount,tdownCount,0);
+    setThumbAction(tupA,tdownA,pic,tupCount,tdownCount,1);
+
+    moreContent.appendChild(tupCount);
+   	moreContent.appendChild(tupA);
+   	moreContent.appendChild(tdownCount); 
+   	moreContent.appendChild(tdownA);
+   	return moreContent;
+}
+
+
+
+function setThumbAction(thumbClicked,otherThumb,pic,counterUp,counterDown,vote) {
+	thumbClicked.href = "./php/picRouter.php?route=likePic&picId="+pic.id+"&vote="+vote;
+	makeAjaxAnchor(thumbClicked,function(result) {
+		var results = JSON.parse(result)[0];
+		console.log(results);
+		counterUp.textContent = results.up;
+		counterDown.textContent = results.down;
+
+		thumbClicked.querySelector("img").src = "./res/thumbActive.png";
+		otherThumb.querySelector("img").src = "./res/thumb.png";
+
+		if(vote == pic.userLiked) {
+			thumbClicked.querySelector("img").src = "./res/thumb.png";
+		}
+	})
+}
+/*********************************************/
+
+
 function displayPic(container,pic) {
 	var picElement;
     if(pic.mime == 1) {
@@ -10,26 +71,7 @@ function displayPic(container,pic) {
 
     var hoverMore = document.createElement("div");
     hoverMore.className = "pic-details";
-
-    var moreContent = document.createElement("div");
-   
-    var tup = document.createElement("img");
-    tup.src = "./res/thumb.png";
-    tup.className = "thumb-up";
-    var tupCount = document.createElement("span");
-    tupCount.textContent = pic.up;
-
-    var tdown = document.createElement("img");
-    tdown.src = "./res/thumb.png";
-   	tdown.className = "thumb-down";
-   	var tdownCount = document.createElement("span");
-    tdownCount.textContent = pic.down;
-
-    moreContent.appendChild(tupCount);
-   	moreContent.appendChild(tup);
-   	moreContent.appendChild(tdownCount); 
-   	moreContent.appendChild(tdown);
-   	
+   	var moreContent = makeMoreContent(pic);
    	hoverMore.appendChild(moreContent);
     empty(container);
     container.appendChild(picElement);

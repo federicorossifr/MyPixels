@@ -264,7 +264,10 @@ SELECT P.*,U.username,(
                                                         SELECT COUNT(*) FROM likes L 
                                                         WHERE L.picId = P.id
                                                         AND upvote = 0
-                                                    ) AS down                                  
+                                                    ) AS down,(
+                                                        SELECT COUNT(*) FROM comments CM
+                                                        WHERE CM.picId = P.id
+                                                    ) AS comments
 FROM pics P
 INNER JOIN users U ON P.userId = U.id
 WHERE P.feed = 1
