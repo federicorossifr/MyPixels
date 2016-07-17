@@ -1,26 +1,17 @@
 <?php
 	include "./php/userController.php";
 	$session = getSession();
+	if($session["length"] && $session["data"]["logged"])
+		header("Location: ./home.php");
 ?>
 <!DOCTYPE html>
 <html>
-<head>
-	<title>Pxls</title>
-	<link rel="stylesheet" type="text/css" href="./css/font.css">
-	<link rel="stylesheet" type="text/css" href="./css/style.css">
-	<link rel="stylesheet" type="text/css" href="./css/topbar.css">
-	<link rel="stylesheet" type="text/css" href="./css/flex.css">
-	<link rel="stylesheet" type="text/css" href="./css/form.css">
-	<link rel="stylesheet" type="text/css" href="./css/modal.css">
-	<script type="text/javascript" src="./js/ajax.js"></script>
-	<script type="text/javascript" src="./js/modal.js"></script>
-</head>
+	<?php include "./layout/head.php"; ?>
 <body>
 	<?php include "./layout/topBar.php"; ?>
-
 	<main class="flex-parent">
 		<div class="flex-2">
-			<img class="flexible-img" src="./res/splash.jpg">
+			<img class="flexible-img" alt="splash" src="./res/splash.jpg">
 		</div>
 
 		<div class="flex-2">
@@ -35,8 +26,6 @@
 		</div>
 
 	</main>
-
-
 	<div id="gpModal" class="modal">
 		<div class="modal-body">
 		<a class="modal-close" onclick="hideModal(this.parentNode.parentNode)">&times;</a>
@@ -51,6 +40,8 @@
 		if(!resultObj.length) {
 			document.getElementById("modalText").textContent = "Username o password scorrette";
 			showModal(document.getElementById("gpModal"));
+		} else {
+			window.location.href = "./home.php";
 		}
 	}
 

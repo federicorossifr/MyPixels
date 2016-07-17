@@ -6,7 +6,7 @@ function getWindowSizes() {
 	return {"width":window.innerWidth,"height":window.innerHeight};
 }
 
-function placeAtCenter(element,sizes) {
+function placeAtScreenCenter(element,sizes) {
 	var windowSizes = getWindowSizes();
 	var leftProp = (windowSizes.width - sizes.width) /2;
 	var topProp = (windowSizes.height - sizes.height) /2;
@@ -27,7 +27,7 @@ function showModal(modalElement) {
 	var modalBody = modalElement.querySelector(".modal-body");
 	var sizes = getRenderedSizes(modalBody);
 	document.body.style.overflow = "hidden";
-	placeAtCenter(modalBody,sizes);
+	placeAtScreenCenter(modalBody,sizes);
 }
 
 function hideModal(modalElement) {

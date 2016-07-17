@@ -1,0 +1,39 @@
+
+.item {
+  position: relative;
+}
+.pic-details {
+	width:100%;
+	height:calc(100% - 5px);
+	position: absolute;
+	top:0;
+	left:0;
+	opacity: 0;
+	background-color: rgba(0,0,0,0.50);
+	transition: opacity 200ms ease-in-out;
+}
+
+.pic-details:hover {
+	opacity: 1;
+}
+
+.pic-details > div {
+	position: absolute;
+	display: flex;
+	height:50px;
+	top:calc(50% - 25px);
+}
+
+.pic-details > div > span {
+	line-height: 50px;
+	color:white;
+	font-family:rb;
+}
+
+.thumb-down,.thumb-up {
+	width: 50px;
+}
+
+.thumb-down {
+	transform: rotate(180deg);
+}
