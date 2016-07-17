@@ -1,0 +1,33 @@
+@font-face {
+    font-family: rr;
+    src: url("./fonts/RobotoSlab-Regular.ttf");
+}
+
+@font-face {
+    font-family: rb;
+    src: url("./fonts/RobotoSlab-Bold.ttf");
+}
+
+@font-face {
+    font-family: rl;
+    src: url("./fonts/RobotoSlab-Light.ttf");
+}
+
+@font-face {
+    font-family: rt;
+    src: url("./fonts/RobotoSlab-Thin.ttf");
+}
+
+
+.bold {
+	font-family: rb;
+}
+
+.light {
+	font-family: rl;
+}
+
+.thin {
+	font-family: rt;
+}
+

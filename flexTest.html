@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<link rel="stylesheet" type="text/css" href="./flex.css">
+</head>
+<body>
+	<div id="container">
+		<div class="item"><img src="./pics/618c59d12e03a42ce18c7d6e15ce15d8becb173b.jpeg"></div>
+		<div class="item"><img src="./pics/618c59d12e03a42ce18c7d6e15ce15d8becb173b.jpeg"></div>
+		<div class="item"><img src="./pics/618c59d12e03a42ce18c7d6e15ce15d8becb173b.jpeg"></div>
+		<div class="item"><img src="./pics/618c59d12e03a42ce18c7d6e15ce15d8becb173b.jpeg"></div>
+		<div class="item"><img src="./pics/618c59d12e03a42ce18c7d6e15ce15d8becb173b.jpeg"></div>
+		<div class="item"><img src="./pics/618c59d12e03a42ce18c7d6e15ce15d8becb173b.jpeg"></div>
+
+	</div>
+
+</body>
+
+<script type="text/javascript">
+
+
+	function resizeItems() {
+		var items = document.querySelectorAll(".item");
+		for(var i = 0; i < items.length; ++i) {
+			var img = items[i].querySelector("img");
+			var imgHeight = img.clientHeight;
+			var width = items[i].clientWidth;
+			items[i].style.height = width + "px";
+			var imgMargin = width/2 - imgHeight/2;
+			img.style.marginTop = imgMargin + "px";
+		}
+	}
+	
+	window.onload = resizeItems;
+	window.onresize = resizeItems;
+
+</script>
+
+</html>

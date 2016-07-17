@@ -1,0 +1,57 @@
+#topBar {
+	position: relative;
+	background-color: white;
+  	border-bottom:1px solid rgba(0,0,0,0.10);
+	padding-left:50px;
+	padding-right: 50px;
+	padding-top:25px;
+	padding-bottom:25px;
+	font-size:20px;
+}
+
+#topBar:after { 
+   content: " ";
+   display: block; 
+   height: 0; 
+   clear: both;
+}
+
+#topBar > ul.links {
+	list-style: none;
+	display: inline-flex;
+	float:right;
+	margin:0;
+}
+
+#topBar > ul.links > li {
+	margin-left:20px;
+}
+
+#topBar > ul.links > li > a >img {
+	height: 22px;
+	display: none;
+}
+
+#topBar > ul.links > li > a >img:nth-child(1) {
+	display: block;
+}
+
+#topBar > ul.links > li:hover > a >img:nth-child(1),
+#topBar > ul.links > li.active > a >img:nth-child(1) {
+	display: none;
+}
+
+#topBar > ul.links > li:hover > a >img:nth-child(2),
+#topBar > ul.links > li.active > a >img:nth-child(2) {
+	display: block;
+}
+
+
+#topBar > ul.links a {
+	text-decoration: none;
+}
+
+#topBar > .brand {
+	display: inline-flex;
+	text-decoration: none;
+}
