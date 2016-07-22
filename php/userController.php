@@ -177,17 +177,28 @@
   }
 
   function getMessages($userId,$ajax = 0) {
-  	global $data;
-  	$data->utilityFilter($userId);
-  	$query = "SELECT M.*,P.path,US.username AS us,UD.username AS ud FROM messages M LEFT OUTER JOIN pics P ON P.id = M.picId INNER JOIN users US ON (M.srcId = US.id) INNER JOIN users UD ON M.dstId = UD.id WHERE M.dstId = $userId OR M.srcId = $userId  ORDER BY M.messageTime ASC ";
-  	$data->query($query);
+    global $data;
+    $data->utilityFilter($userId);
+    $query = "SELECT M.*,P.path,US.username AS us,UD.username AS ud FROM messages M LEFT OUTER JOIN pics P ON P.id = M.picId INNER JOIN users US ON (M.srcId = US.id) INNER JOIN users UD ON M.dstId = UD.id WHERE M.dstId = $userId OR M.srcId = $userId  ORDER BY M.messageTime ASC ";
+    $data->query($query);
 
-  	if($ajax)
-  		echo $data->ExtendedJSONResult();
-  	else
-  		return $data->arrayResult();
+    if($ajax)
+      echo $data->ExtendedJSONResult();
+    else
+      return $data->arrayResult();
   }
 
+  function getProfilePic($userId,$ajax = 0) {
+      global $data;
+      $data->utilityFilter($userId);
+      $query = "SELECT path FROM pics P INNER JOIN users U ON U.profilePic = P.id WHERE U.id = $userId";
+      $data->query($query);
+
+      if($ajax)
+        echo $data->ExtendedJSONResult();
+      else
+        return $data->arrayResult();
+  }
 
   function userNameExists($username,$ajax = 0) {
     global $data;
@@ -203,11 +214,11 @@
   }
 
   function createUserSession($userObject) {
-  	session_start();
-  	$userObject = json_decode($userObject)[0];
-  	$_SESSION["logged"] = 1;
-  	$_SESSION["id"] = $userObject->id;
-  	$_SESSION["username"] = $userObject->username;
+    session_start();
+    $userObject = json_decode($userObject)[0];
+    $_SESSION["logged"] = 1;
+    $_SESSION["id"] = $userObject->id;
+    $_SESSION["username"] = $userObject->username;
   }
 
 
@@ -218,6 +229,7 @@
     unset($_SESSION['username']);
     unset($_SESSION['password']);
     session_destroy();
+    echo "1";
   }
 
   function getSession($ajax = 0) {
@@ -225,7 +237,11 @@
     $response['data'] = $_SESSION;
     $response['length'] = count($_SESSION);
     if($ajax)
-   	  echo json_encode($response);
+      echo json_encode($response);
     else
       return $response;
+  }
+
+  function isLoggedIn($session) {
+    return ($session["length"] && $session["data"]["logged"]);
   }

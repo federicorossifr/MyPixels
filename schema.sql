@@ -224,7 +224,7 @@ BEGIN
         UPDATE likes SET upvote = up WHERE userId = uId AND picId = pId;
     END IF;
     
-    SELECT EP.up AS up,EP.down AS down FROM extendedPics EP WHERE id = pId;
+    SELECT EP.up AS up,EP.down AS down FROM extendedFeedPics EP WHERE id = pId;
 
 END $$
 DELIMITER ;
@@ -254,24 +254,24 @@ sendM:BEGIN
 END $$
 
 
-/**** EXTENDED PIC VIEW WITH INFOS ****/
-CREATE OR REPLACE VIEW extendedFeedPics AS
-SELECT P.*,U.username,(
-                                                        SELECT COUNT(*) FROM likes L 
-                                                        WHERE L.picId = P.id
-                                                        AND upvote = 1
-                                                    ) AS up ,(
-                                                        SELECT COUNT(*) FROM likes L 
-                                                        WHERE L.picId = P.id
-                                                        AND upvote = 0
-                                                    ) AS down,(
-                                                        SELECT COUNT(*) FROM comments CM
-                                                        WHERE CM.picId = P.id
-                                                    ) AS comments
-FROM pics P
-INNER JOIN users U ON P.userId = U.id
-WHERE P.feed = 1
-ORDER BY created DESC;
+    /**** EXTENDED PIC VIEW WITH INFOS ****/
+    CREATE OR REPLACE VIEW extendedFeedPics AS
+    SELECT P.*,U.username,(
+                                                            SELECT COUNT(*) FROM likes L 
+                                                            WHERE L.picId = P.id
+                                                            AND upvote = 1
+                                                        ) AS up ,(
+                                                            SELECT COUNT(*) FROM likes L 
+                                                            WHERE L.picId = P.id
+                                                            AND upvote = 0
+                                                        ) AS down,(
+                                                            SELECT COUNT(*) FROM comments CM
+                                                            WHERE CM.picId = P.id
+                                                        ) AS comments
+    FROM pics P
+    INNER JOIN users U ON P.userId = U.id
+    WHERE P.feed = 1
+    ORDER BY created DESC;
 
 
 

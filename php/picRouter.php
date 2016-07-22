@@ -30,6 +30,11 @@
         getFeed($userId,1);
         break;
 
+    case 'getUserFeed':
+        $userId = $_GET['id'];
+        getUserFeed($userId,1);
+        break;
+
     case 'likePic':
         session_start();
         if(!isset($_SESSION['logged'])) break;

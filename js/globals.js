@@ -2,3 +2,5 @@ var globals = {
 	"loggedUser": {},
 	"pics":[]
 }
+
+

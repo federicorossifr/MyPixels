@@ -65,7 +65,7 @@
 
     $data->utilityFilter($picId);
 
-    $query = "SELECT * FROM extendedPics WHERE id = $picId";
+    $query = "SELECT * FROM extendedFeedPics WHERE id = $picId";
 
     $data->query($query);
 
@@ -80,13 +80,26 @@
     global $data;
     $data->utilityFilter($userId);
 
-    $query = "SELECT *,(SELECT L.upvote FROM likes  L WHERE L.userid = $userId AND  L.picId = EP.id) AS userLiked FROM extendedPics EP WHERE EP.userId IN (SELECT followed FROM followship WHERE follower = $userId) OR EP.userId = $userId";
+    $query = "SELECT *,(SELECT L.upvote FROM likes  L WHERE L.userid = $userId AND  L.picId = EP.id) AS userLiked FROM extendedFeedPics EP WHERE EP.userId IN (SELECT followed FROM followship WHERE follower = $userId) OR EP.userId = $userId";
     $data->query($query);
 
     if($ajax)
       echo $data->ExtendedJSONResult();
     else
       return $data->arrayResult();
+  }
+
+  function getUserFeed($userId,$ajax = 0) {
+    global $data;
+    $data->utilityFilter($userId);
+
+    $query = "SELECT *,(SELECT L.upvote FROM likes  L WHERE L.userid = $userId AND  L.picId = EP.id) AS userLiked FROM extendedFeedPics EP WHERE EP.userId = $userId";
+    $data->query($query);
+
+    if($ajax)
+      echo $data->ExtendedJSONResult();
+    else
+      return $data->arrayResult();  
   }
 
   function likePic($userId,$picId,$vote,$ajax = 0) {

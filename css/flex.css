@@ -9,7 +9,10 @@ main.flex-parent {
   padding-top:30px;
 }
 
-
+aside.flex-parent {
+  margin: 0 auto;
+  width:70%;
+}
 
 .flexible-img {
   width: 100%;

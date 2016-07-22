@@ -18,3 +18,21 @@ function catchTags(inputElement,memory,display) {
 		memory.value = JSON.stringify(tagz);
 	}
 }
+
+function checkInput(event) {
+	if(event.target.validity.valid)
+		event.target.className = event.target.getAttribute("data-class") + " valid";
+	else
+		event.target.className = event.target.getAttribute("data-class") + " invalid";
+}
+
+function checkForm(form) {
+	var formElements = form.querySelectorAll("input:not([type='submit'])");
+	for(var i = 0; i < formElements.length; ++i) {
+		formElements[i].setAttribute("data-class",formElements[i].className);
+		formElements[i].onblur = checkInput;
+		formElements[i].oninvalid = function(event) {
+			event.preventDefault();
+		}
+	}
+}

@@ -42,9 +42,13 @@ function createModal(content) {
 	modalBody.className = "modal-body";
 	var modalClose = document.createElement("a");
 	modalClose.className = "modal-close";
-	modalClose.textContent = "&times;";
+	modalClose.textContent = "\u02DF";
+	modalClose.onclick = function() {
+		hideModal(modal);
+	}
 	modalBody.appendChild(content);
 	modal.appendChild(modalBody);
 	modalBody.appendChild(modalClose);
+	document.body.appendChild(modal);
 	return modal;
 }

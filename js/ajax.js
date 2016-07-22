@@ -41,7 +41,7 @@ function post(formElement,callback) {
           console.log("Radio checked");
           data.append(element.name,element.value);
         }
-      } else data.append(element.name,element.value);
+      } else data.append(element.name,escape(element.value));
     }
   }
 
@@ -51,13 +51,21 @@ function post(formElement,callback) {
 
 function setAjax(formElement,callback) {
   if(!formElement) return;
+  var submitter = formElement.querySelector("input[type='submit']");
+  submitter.setAttribute("data-label",submitter.value);
   formElement.onsubmit = function(event) {
     event.preventDefault();
     event.stopPropagation();
+    submitter.setAttribute("disabled","true");
+    submitter.value = "...";
     var method = formElement.getAttribute("method");
     switch(method) {
       case "POST":
-        post(formElement,callback);
+        post(formElement,function(result) {
+          submitter.removeAttribute("disabled");
+          submitter.value = submitter.getAttribute("data-label");
+          callback(result);
+        });
         break;
       case "GET":
       default:
@@ -70,7 +78,11 @@ function setAjax(formElement,callback) {
           if(i < inputs.length - 2)
             url += "&";
         }
-        get(url,callback);
+        get(url,function(result) {
+          submitter.removeAttribute("disabled");
+          submitter.value = submitter.getAttribute("data-label");          
+          callback(result);
+        });
     }
   }
 }

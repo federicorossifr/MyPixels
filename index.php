@@ -1,7 +1,7 @@
 <?php
 	include "./php/userController.php";
 	$session = getSession();
-	if($session["length"] && $session["data"]["logged"])
+	if(isLoggedIn($session))
 		header("Location: ./home.php");
 ?>
 <!DOCTYPE html>
@@ -16,11 +16,11 @@
 
 		<div class="flex-2">
 			<h2 class="centered">Iscriviti per vedere le foto e i video<br> dei tuoi amici.</h2>
-			<form id="registerForm" method="POST" action="./php/userRouter.php?route=createUser">
-				<input type="text" name="username" class="light wide" placeholder="Username"><br>
-				<input type="password" name="password" class="light wide" placeholder="Password"><br>
-				<input type="text" name="firstName" class="light wide" placeholder="First name"><br>
-				<input type="text" name="surname" class="light wide" placeholder="Surname"><br>
+			<form autocomplete="off" id="registerForm" method="POST" action="./php/userRouter.php?route=createUser">
+				<input required pattern="^[a-zA-Z\d]+$" type="text" name="username" class="light wide" placeholder="Username"><br>
+				<input required type="password" name="password" class="light wide" placeholder="Password"><br>
+				<input required pattern="^[a-zA-Z]+$" type="text" name="firstName" class="light wide" placeholder="First name"><br>
+				<input required  pattern="^[a-zA-Z]+$" type="text" name="surname" class="light wide" placeholder="Surname"><br>
 				<input type="submit" class="submitButton regular wide" value="Iscriviti" >
 			</form>
 		</div>
@@ -45,8 +45,9 @@
 		}
 	}
 
-
 	setAjax(document.getElementById("loginForm"),loginCompleted);
 	setAjax(document.getElementById("registerForm"),alert);
+	checkForm(document.getElementById("loginForm"));
+	checkForm(document.getElementById("registerForm"));
 </script>
 </html>

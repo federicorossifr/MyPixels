@@ -6,6 +6,7 @@ html,body {
 	padding:0;
 	font-family: rl;
 	font-size: 14px;
+	color:rgba(0,0,0,0.50);
 }
 
 body {
@@ -34,26 +35,20 @@ aside#orderPics {
 	padding-right:5px;
 }
 
-.select-styler {
-	width:226px;
-	overflow: hidden;
-	float:right;
-  background: url(../res/dropdown.png) no-repeat 96% white;
+#profilePic {
+	box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 }
 
-.select-styler > select {
-	 background: transparent;
-	 border:1px solid rgba(0,0,0,0);
-	 font-size:15px;
-	 font-family:rl;
-	 width:250px;
+div.user-details {
+	margin-left:20px;
 }
 
-.select-styler > select:focus {
-	outline: none;
-	outline-color: transparent;
+div.user-details > h2 {
+	font-size:30px;
 }
 
-
-
+div.user-details > h2 > small {
+	font-size:20px;
+	color:rgba(0,0,0,0.6666);
+}
 

@@ -18,13 +18,35 @@ input[type="text"]:focus,input[type="password"]:focus {
   border:1px solid rgba(0,0,0,0.30);
 }
 
-input[type=submit].submitButton {
+input:invalid, input:required {
+  box-shadow: none;
+}
+
+input.invalid {
+  border:1px solid rgba(255,0,0,0.66);
+  background: url("../res/error.png") no-repeat calc(100% - 5px) center;
+  background-size:20px;
+}
+
+input.valid {
+  border:1px solid rgba(0,255,0,0.66);
+  background: url("../res/success.png") no-repeat calc(100% - 5px) center;
+  background-size:20px;
+  
+}
+
+a.submitButton,input[type=submit].submitButton {
   border:none;
   padding:5px 20px;
   color:white;
   background-color: #3897f0;
   font-size:15px;
   cursor: pointer; 
+  text-decoration:none;
+}
+
+a.submitButton:disabled,input[type=submit].submitButton:disabled {
+  background-color: rgba(0,0,0,0.15);
 }
 
 input.wide {
@@ -33,3 +55,39 @@ input.wide {
   box-sizing: border-box;
 }
 
+.select-styler {
+	width:226px;
+	overflow: hidden;
+	float:right;
+  background: url(../res/dropdown.png) no-repeat 96% white;
+}
+
+.select-styler > select {
+	 background: transparent;
+	 border:1px solid rgba(0,0,0,0);
+	 font-size:15px;
+	 font-family:rl;
+	 width:250px;
+	color:rgba(0,0,0,0.50);  
+}
+
+.select-styler > select:focus {
+	outline: none;
+	outline-color: transparent;
+}
+
+.fixed-form {
+  position: absolute;
+  top:calc(100% - 37px);
+  width:100%;
+  box-sizing: border-box;
+  display: flex;
+}
+
+.fixed-form > input[type="text"] {
+  flex:10;
+}
+
+.fixed-form > input[type="submit"] {
+  flex:1;
+}

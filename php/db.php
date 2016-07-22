@@ -1,5 +1,5 @@
 <?php
-
+require_once __DIR__ . "/config.php";
 class db {
   protected $connection;
   protected $result;
@@ -11,7 +11,7 @@ class db {
 
 
   function __construct() {
-    $this->connection = new mysqli('localhost','root','','pweb');
+    $this->connection = new mysqli(Config::read("dbHost"),Config::read("dbUser"),Config::read("dbPass"),Config::read("dbCollection"));
     if(!$this->connection)
       die("Impossibile contattare il database");
     else {

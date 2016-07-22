@@ -100,6 +100,13 @@
         $followed = $_POST['followed'];
         followUser($follower,$followed,1);
         break;
+
+    case 'getProfilePic':
+        session_start();
+        if(!isset($_SESSION['logged'])) break;
+        $userId = $_GET['id'];
+        getProfilePic($userId,1);
+        break;
   }
 
 

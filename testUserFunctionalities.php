@@ -109,7 +109,9 @@
         var users = JSON.parse(result).data;
         for(var i = 0; i < users.length; ++i)
           appendOption(document.getElementById("followed"),users[i].username,users[i].id);
-      });    
+      });
+
+      get("./php/userRouter.php?route=getProfilePic",logTest);
   }
 
   function loginCompleted(result) {

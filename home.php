@@ -1,6 +1,8 @@
 <?php
 	include "./php/userController.php";
 	$session = getSession();
+	if(!isLoggedIn($session))
+		header("Location: ./index.php");
 ?>
 <!DOCTYPE html>
 <html>
