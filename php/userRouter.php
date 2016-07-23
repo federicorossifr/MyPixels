@@ -97,7 +97,7 @@
         session_start();
         if(!isset($_SESSION['logged'])) break;
         $follower = $_SESSION['id'];
-        $followed = $_POST['followed'];
+        $followed = $_GET['followed'];
         followUser($follower,$followed,1);
         break;
 

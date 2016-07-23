@@ -25,6 +25,7 @@
 
 #topBar > ul.links > li {
 	margin-left:20px;
+	position: relative;
 }
 
 #topBar > ul.links > li > a >img {

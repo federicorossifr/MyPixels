@@ -135,13 +135,13 @@ AFTER INSERT ON  followShip FOR EACH ROW
 
 CREATE TRIGGER newLike
 AFTER INSERT ON likes FOR EACH ROW
-    INSERT INTO notifies(userId,actionDone,userDone,eventAt) 
-    SELECT userId,"LIKE",NEW.userId,CURRENT_TIME FROM pics WHERE id = NEW.picId;
+    INSERT INTO notifies(userId,actionDone,userDone,eventAt,picInvolved) 
+    SELECT userId,"LIKE",NEW.userId,CURRENT_TIME,NEW.picId FROM pics WHERE id = NEW.picId;
     
 CREATE TRIGGER newComment
 AFTER INSERT ON comments FOR EACH ROW
-    INSERT INTO notifies(userId,actionDone,userDone,eventAt) 
-    SELECT userId,"COMMENT",NEW.userId,CURRENT_TIME FROM pics WHERE id = NEW.picId;
+    INSERT INTO notifies(userId,actionDone,userDone,eventAt,picInvolved) 
+    SELECT userId,"COMMENT",NEW.userId,CURRENT_TIME,NEW.picId FROM  pics WHERE id = NEW.picId;
     
 CREATE TRIGGER newMessage
 AFTER INSERT ON messages FOR EACH ROW
@@ -253,7 +253,7 @@ sendM:BEGIN
     INSERT INTO messages(srcId,dstId,messageBody,picId) VALUES (srcId,dstId,msg,picId);
 END $$
 
-
+DELIMITER ;
     /**** EXTENDED PIC VIEW WITH INFOS ****/
     CREATE OR REPLACE VIEW extendedFeedPics AS
     SELECT P.*,U.username,(
@@ -274,4 +274,4 @@ END $$
     ORDER BY created DESC;
 
 
-
+/*******************************************************************/

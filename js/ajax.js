@@ -88,6 +88,7 @@ function setAjax(formElement,callback) {
 }
 
 function makeAjaxAnchor(anchor,callback) {
+    if(!anchor) return;
     anchor.onclick = function(event) {
       event.preventDefault();
       event.stopPropagation();

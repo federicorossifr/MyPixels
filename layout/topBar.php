@@ -4,7 +4,14 @@
 			<?php if($session["length"] && $session["data"]["logged"]) { ?>
 				<ul class="links">
 					<li><a href="./home.php"><img alt="home" src="./res/home.png"><img src="./res/homeDark.png"></a></li>
-					<li><a href=""><img alt="heart" src="./res/heart.png"><img src="./res/heartDark.png"></a></li>
+					<li>
+						<a href="#" onclick="toggleNotifies()">
+							<img alt="heart" src="./res/heart.png">
+							<img src="./res/heartDark.png">
+						</a>
+						<?php include __DIR__ .  "/notifies.php"; ?>
+						<span class="bold" id="notifies-count"></span>
+					</li>
 					<li><a href=""><img alt="explore" src="./res/explore.png"><img src="./res/exploreDark.png"></a></li>
 				<li><a href="./profile.php?user=<?= $session["data"]["id"] ?>"><img alt="profile" src="./res/profile.png"><img src="./res/profileDark.png"></a></li>
 				<span class="userLabel"><?= $session["data"]["username"] ?></span></ul>

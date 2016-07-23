@@ -135,7 +135,7 @@
   	global $data;
   	$data->utilityFilter($userId);
 
-  	$query = "SELECT * FROM notifies WHERE userId=$userId AND unread=1 ORDER BY eventAt DESC";
+  	$query = "SELECT N.*,U.username FROM notifies N INNER JOIN users U ON U.id = N.userDone WHERE userId=$userId ORDER BY eventAt DESC";
   	$data->query($query);
 
   	if($ajax)

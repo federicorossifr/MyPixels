@@ -253,3 +253,11 @@ function doSort(sortType,newContainer) {
 			break;
 	}
 }
+
+function findPicById(id) {
+	for(var i = 0; i < globals.pics.length; ++i) {
+		if(globals.pics[i].id == id)
+			return globals.pics[i];
+	}
+	return undefined;
+}

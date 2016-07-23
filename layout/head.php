@@ -7,6 +7,7 @@
 	<link rel="stylesheet" type="text/css" href="./css/form.css">
 	<link rel="stylesheet" type="text/css" href="./css/modal.css">
 	<link rel="stylesheet" type="text/css" href="./css/pic.css">
+	<link rel="stylesheet" type="text/css" href="./css/notifies.css">
 	<script type="text/javascript" src="./js/globals.js"></script>
 	<script type="text/javascript" src="./js/pics.js"></script>
 	<script type="text/javascript" src="./js/util.js"></script>

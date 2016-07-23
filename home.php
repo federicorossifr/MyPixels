@@ -24,6 +24,7 @@
 	</main>
 </body>
 
+<script type="text/javascript" src="./js/notifies.js"></script>
 <script type="text/javascript">
 	get("./php/userRouter.php?route=getSession",function(result) {
     	var dataObj = JSON.parse(result);
@@ -43,6 +44,10 @@
   		this.blur();
   		doSort(event.target.value,document.getElementById("picturesContainer"));
   	}
+
+  	get("./php/userRouter.php?route=getNotifies",function(result) {
+		displayNotifies(result,document.getElementById("notifies"),document.getElementById("notifies-count"),document.getElementById("picturesContainer"));
+	});
 
 
 </script>
