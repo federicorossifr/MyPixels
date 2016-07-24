@@ -21,11 +21,11 @@
   }
 
   //read
-  function getUserById($id,$ajax = 0) {
+  function getUserById($id,$userId,$ajax = 0) {
     global $data;
-    $query = "SELECT * FROM users WHERE id = ";
     $data->utilityFilter($id);
-    $query.=$id;
+    $data->utilityFilter($userId);
+    $query = "SELECT U.*,(SELECT COUNT(*) FROM  followship WHERE follower=$userId AND followed=$id) AS following FROM users U WHERE id = $id";
     $data->query($query);
 
     if($ajax)
@@ -176,10 +176,24 @@
   		return $data->insertedId;
   }
 
-  function getMessages($userId,$ajax = 0) {
+  function  getChats($userId,$ajax = 0) {
     global $data;
     $data->utilityFilter($userId);
-    $query = "SELECT M.*,P.path,US.username AS us,UD.username AS ud FROM messages M LEFT OUTER JOIN pics P ON P.id = M.picId INNER JOIN users US ON (M.srcId = US.id) INNER JOIN users UD ON M.dstId = UD.id WHERE M.dstId = $userId OR M.srcId = $userId  ORDER BY M.messageTime ASC ";
+    $query = "SELECT OM.dstId AS userId,U.username FROM orderedMessages OM INNER JOIN users U ON OM.dstId  = U.id WHERE srcId = $userId GROUP BY dstId
+      UNION
+      SELECT OM.srcId AS userId,U.username FROM orderedMessages OM INNER JOIN users U ON OM.srcId  = U.id WHERE dstId = $userId GROUP BY srcId";
+
+    $data->query($query);
+    if($ajax)
+      echo $data->ExtendedJSONResult();
+    else
+      return $data->arrayResult();
+  }
+
+  function getMessages($userId,$buddy,$ajax = 0) {
+    global $data;
+    $data->utilityFilter($userId);
+    $query = "SELECT M.*,P.path,US.username AS us,UD.username AS ud FROM messages M LEFT OUTER JOIN pics P ON P.id = M.picId INNER JOIN users US ON (M.srcId = US.id) INNER JOIN users UD ON M.dstId = UD.id WHERE (M.dstId = $userId AND M.srcId = $buddy) OR (M.srcId = $userId AND M.dstId = $buddy)  ORDER BY M.messageTime ASC ";
     $data->query($query);
 
     if($ajax)

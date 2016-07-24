@@ -3,6 +3,11 @@ function empty(element) {
       element.removeChild(element.firstChild);
 }
 
+function makeActiveLink(linkId) {
+  document.getElementById(linkId).className += " active";
+  document.getElementById(linkId).className = document.getElementById(linkId).className.trim();
+}
+
 
 function escape(str) {
   str = str.replace(/&/g, "&amp;");

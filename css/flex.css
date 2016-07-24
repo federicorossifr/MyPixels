@@ -24,6 +24,10 @@ aside.flex-parent {
 
 }
 
+.flex-1 {
+  flex-basis: 75%;
+}
+
 .flex-2 {
   flex-basis: 50%;
 }

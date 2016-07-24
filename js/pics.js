@@ -155,21 +155,29 @@ function displayCommentForm(container,pic,feedContainer) {
 	commentForm.method = "POST";
 	commentForm.className = "fixed-form";
 	commentForm.action = "./php/picRouter.php?route=commentPic";
+
 	var inputText = document.createElement("input");
 	inputText.type = "text";
 	inputText.name = "comment";
+	inputText.required = "required";
+
 	var submitButton = document.createElement("input");
 	submitButton.type ="submit";
 	submitButton.className = "submitButton";
 	submitButton.value = "Invia";
+
 	var hiddenPicId = document.createElement("input");
 	hiddenPicId.value = pic.id;
 	hiddenPicId.type="hidden";
 	hiddenPicId.name = "picId";
+
 	commentForm.appendChild(inputText);
 	commentForm.appendChild(submitButton);
 	commentForm.appendChild(hiddenPicId);
 	container.appendChild(commentForm);
+	
+	checkForm(commentForm);
+
 	setAjax(commentForm,function(result) {
 		if(!isNaN(result) && parseInt(result) > 0) {
 			get("./php/picRouter.php?route=getPicComments&picId="+pic.id,function(result) {
@@ -187,16 +195,27 @@ function showPicModal(pic,feedContainer) {
 	modalContent.className = "flex-parent";
 	var imgDiv = document.createElement("div");
 	imgDiv.className ="flex flex-2";
+
 	var img = document.createElement("img");
 	img.src = pic.path;
 	img.className = "flexible-img";
+
+	var picDescription = document.createElement("div");
+	picDescription.textContent = recape(pic.description);
+	picDescription.className = "flex flex-2";
+	
 	imgDiv.appendChild(img);
+	
 	var cDiv = document.createElement("div");
 	cDiv.className = "flex flex-2";
+
 	var innerCDiv = document.createElement("div");
+
 	cDiv.appendChild(innerCDiv);
+
 	modalContent.appendChild(imgDiv);
 	modalContent.appendChild(cDiv);
+	modalContent.appendChild(picDescription);
 	var modal = createModal(modalContent);
 	get("./php/picRouter.php?route=getPicComments&picId="+pic.id,function(result) {
     	displayComments(result,innerCDiv);

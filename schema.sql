@@ -232,19 +232,11 @@ DELIMITER ;
 /*** PROCEDURE TO SEND A MESSAGE ***/
 DROP PROCEDURE IF EXISTS sendMessage;
 DELIMITER $$
-CREATE PROCEDURE sendMessage (IN src VARCHAR(45) ,IN dst VARCHAR(45) ,IN  msg LONGTEXT,IN picId INT)
+CREATE PROCEDURE sendMessage (IN srcId INT ,IN dstId INT,IN  msg LONGTEXT,IN picId INT)
 sendM:BEGIN
-    DECLARE srcId INTEGER DEFAULT NULL;
-    DECLARE dstId INTEGER DEFAULT NULL;
     DECLARE picExists INTEGER DEFAULT NULL;
-    
-    SELECT id INTO srcId FROM users WHERE username = src;
-    SELECT id INTO dstId FROM users WHERE username = dst;
-    SELECT COUNT(*) INTO picExists FROM pics P WHERE P.picId = picId;
-    
-    IF srcId IS NULL or dstId IS NULL THEN
-        LEAVE sendM;
-    END IF;
+
+    SELECT COUNT(*) INTO picExists FROM pics P WHERE P.Id = picId;
     
     IF picExists = 0 THEN
         SET picId = NULL;
@@ -275,3 +267,6 @@ DELIMITER ;
 
 
 /*******************************************************************/
+
+CREATE OR replace VIEW orderedMessages AS
+SELECT * FROM messages ORDER BY messageTime DESC;

@@ -11,7 +11,7 @@
 	<?php include "./layout/topBar.php"; ?>
 	<main class="flex-parent">
 		<div class="flex-2">
-			<img class="flexible-img" alt="splash" src="./res/splash.jpg">
+			<img class="flexible-img splash" alt="splash" src="./res/splash.jpg">
 		</div>
 
 		<div class="flex-2">

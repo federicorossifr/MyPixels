@@ -67,11 +67,19 @@
    		sendMessage($userId,$dest,$message,$picId,1);
    		break;
 
+    case 'getChats':
+      session_start();
+      if(!isset($_SESSION['logged'])) break;
+        $userId = $_SESSION['id'];
+      getChats($userId,1);
+      break;
+
    	case 'getMessages':
    		session_start();
         if(!isset($_SESSION['logged'])) break;
    		$userId = $_SESSION['id'];
-   		getMessages($userId,1);
+      $buddy = $_GET['buddy'];
+   		getMessages($userId,$buddy,1);
    		break;
 
    	case 'getFollowed':

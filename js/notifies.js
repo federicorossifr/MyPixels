@@ -18,6 +18,9 @@ function makeNotifyText(notify,feedContainer,anchor) {
 		case "FOLLOW":
 			anchor.href = "./profile.php?user="+notify.userDone;
 			return notify.username + " ora ti sta seguendo";
+		case "MESSAGE":
+			anchor.href = "./messages.php";
+			return notify.username + " ti ha mandato un messaggio";
 
 		default: return "NOT SUPPORTED";
 	}
@@ -52,9 +55,13 @@ function toggleNotifies() {
 
 	if(state == "" || state == "none") {
 		popup.style.display = "block";
-		document.getElementById("notifies-count").textContent = 0;
 		get("./php/userRouter.php?route=emptyNotifies",function() {});
 	} else if(state == "block") {
 		popup.style.display = "none";
+		document.getElementById("notifies-count").textContent = 0;
+		var lis = popup.querySelectorAll("li");
+		for(var i = 0; i < lis.length; ++i) {
+			lis[i].className = "";
+		}
 	}
 }
