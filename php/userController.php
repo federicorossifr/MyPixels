@@ -118,9 +118,9 @@
   	$query = "";
 
   	if($followType == 1) //userId as follower
-  		$query = "SELECT * FROM followship INNER JOIN users ON id = followed WHERE follower = $userId";
-  	else
-  		$query = "SELECT * FROM followship INNER JOIN users ON id = follower WHERE followed = $userId";
+  		$query = "SELECT id as userId,username FROM followship INNER JOIN users ON id = followed WHERE follower = $userId";
+  	else if($followType == 0)
+  		$query = "SELECT id as userId,username FROM followship INNER JOIN users ON id = follower WHERE followed = $userId";
 
   	$data->query($query);
 

@@ -94,7 +94,7 @@
    		if(!isset($_SESSION['logged'])) break;
    		$userId = $_SESSION['id'];
    		getFollow($userId,0,1);
-   		break;	
+   		break;
 
    	case 'getSession':
    		getSession(1);

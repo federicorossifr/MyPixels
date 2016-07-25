@@ -24,6 +24,7 @@ function post(formElement,callback) {
 
   var data = new FormData();
   var elements = formElement.querySelectorAll("input, select, textarea");
+  console.log(elements);
   for (var i = 0; i < elements.length; i++) {
     var element = elements[i];
 

@@ -36,3 +36,14 @@ function checkForm(form) {
 		}
 	}
 }
+
+
+function setFileTrigger(container,fileInput) {
+	container.onclick = function() {
+		fileInput.click();
+	}
+
+	fileInput.onchange = function(event) {
+		container.textContent = event.target.value;
+	}
+}
