@@ -35,13 +35,11 @@
 
 .message-list > li.to {
 	float:right;
-	text-align: justified;
 	background-color:rgba(0,0,0,0.05);
 }
 
 .message-list > li.from {
 	float:left;
-	text-align: justified;
 }
 
 .message-pic {

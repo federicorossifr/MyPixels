@@ -7,7 +7,7 @@ form {
   text-align:center;
 }
 
-input[type="text"],input[type="password"],input[type="file"] {
+input[type="text"],input[type="password"],input[type="file"],textarea {
   border: 1px solid rgba(0,0,0,0.15);
   padding:5px;
   font-size:15px;  
@@ -25,8 +25,13 @@ input[type="file"] {
 
 
 
-input[type="text"]:focus,input[type="password"]:focus {
+input[type="text"]:focus,input[type="password"]:focus,textarea:focus {
   border:1px solid rgba(0,0,0,0.30);
+}
+
+textarea {
+  resize: none;
+  font-family: rl;
 }
 
 input:invalid, input:required {
@@ -57,6 +62,7 @@ a.submitButton,input[type=submit].submitButton,div.inputfile {
   transition: all 0.3s cubic-bezier(.25,.8,.25,1);
 }
 
+.fixed-form > 
 div.inputfile {
   box-shadow: none;
   flex:3;
@@ -66,14 +72,21 @@ div.inputfile {
 }
 
 
+
+
 a.submitButton:disabled,input[type=submit].submitButton:disabled {
   background-color: rgba(0,0,0,0.15);
 }
 
-input.wide {
+input.wide, div.inputfile.wide,textarea.wide {
   width:80%;
   margin-bottom: 5px;
   box-sizing: border-box;
+}
+
+div.inputfile.wide {
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .select-styler {

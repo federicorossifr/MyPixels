@@ -25,7 +25,11 @@
     global $data;
     $data->utilityFilter($id);
     $data->utilityFilter($userId);
-    $query = "SELECT U.*,(SELECT COUNT(*) FROM  followship WHERE follower=$userId AND followed=$id) AS following FROM users U WHERE id = $id";
+    $query = "SELECT U.*,
+              (SELECT COUNT(*) FROM  followship WHERE follower=$userId AND followed=$id) AS following,
+              (SELECT COUNT(*) FROM followship WHERE followed = $id) AS followers, 
+              (SELECT COUNT(*) FROM followship WHERE follower = $id) AS followeds
+              FROM users U WHERE id = $id";
     $data->query($query);
 
     if($ajax)

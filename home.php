@@ -22,34 +22,46 @@
 	<main id="picturesContainer" class="flex-parent">
 
 	</main>
+	<a id="new-button" class="floating" href="#"><img src="./res/new.png"></img></a>
+	<?php include "./layout/creationModal.php"; ?>
 </body>
 
 <script type="text/javascript">
-	get("./php/userRouter.php?route=getSession",function(result) {
-    	var dataObj = JSON.parse(result);
-	    if(!dataObj.length) return;
-	    globals.loggedUser = dataObj.data;
-	    loadPictures(document.getElementById("picturesContainer"));
+	initShowcase("getFeed","home");
+
+	function previewOnChange(event,previewer,modal) {
+		var imgAccept = ["jpg","jpeg","png"];
+	    if (event.target.files && event.target.files[0]) {
+	        var reader = new FileReader();
+	        var extension = event.target.files[0].name.split('.').pop().toLowerCase();
+	        reader.onload = function (e) {
+	        		if(imgAccept.indexOf(extension) < 0) {
+	        			alert("Tipo non supportato!");
+	        			previewer.src = "./res/new.png";
+	        			event.target.value = "";
+	        		} else {
+	            		previewer.src = e.target.result;
+	            	}
+	            	previewer.onload = function() {showModal(modal);}
+	        }
+
+	        reader.readAsDataURL(event.target.files[0]);
+    	}
+	}
+
+
+	document.getElementById("new-button").onclick = function() {
+		showModal(document.getElementById("creation-modal"));
+	}
+
+  	setFileTrigger(document.getElementById("pic-file"),document.getElementById("creation-form").pic,function(event) {
+  		previewOnChange(event,
+  						document.getElementById("previewer"),
+  						document.getElementById("creation-modal"));
   	});
-
-
-  	function loadPictures(feedContainer) {
-		get("./php/picRouter.php?route=getFeed",function(result){
-			picsLoaded(result,feedContainer);
-		});
-  	}
-
-  	document.getElementById("orderSelector").onchange = function(event) {
-  		this.blur();
-  		doSort(event.target.value,document.getElementById("picturesContainer"));
-  	}
-
-  	get("./php/userRouter.php?route=getNotifies",function(result) {
-		displayNotifies(result,document.getElementById("notifies"),document.getElementById("notifies-count"),document.getElementById("picturesContainer"));
-	});
-
-	makeActiveLink("home");
-
-
+  	checkForm(document.getElementById("creation-form"));
+  	setAjax(document.getElementById("creation-form"),function(result) {
+  		alert(result);
+  	})
 </script>
 </html>

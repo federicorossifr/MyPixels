@@ -12,10 +12,7 @@
         $userId = $_SESSION['id'];
         $description = $_POST['description'];
         $postFile = $_FILES['pic'];
-        $mime = $_POST['mime'];
-        $tags = json_decode($_POST['tags']);
-        $newId = createPic($description,$postFile,$userId,$mime,1,'pic',0);
-        tagPic($newId,$tags,1);
+        createPic($description,$postFile,$userId,1,'pic',1);
       break;
 
     case 'readPic':
@@ -28,6 +25,13 @@
         if(!isset($_SESSION['logged'])) break;
         $userId = $_SESSION['id'];
         getFeed($userId,1);
+        break;
+
+    case 'getRelatedFeed':
+        session_start();
+        if(!isset($_SESSION['logged'])) break;
+        $userId = $_SESSION['id'];
+        getRelatedFeed($userId,1);
         break;
 
     case 'getUserFeed':

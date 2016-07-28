@@ -10,45 +10,35 @@
   }
 
   //FUNZIONE DI UTILITA' PER IL CONTROLLO DEL FORMATO
-  function checkFormat($postFile,$type,$field) {
+  function checkFormat($postFile,$field) {
     $imgAccepted = array("jpg","jpeg","png");
-    $vidAccepted = array("mp4");
 
     $postedFileName = $_FILES[$field]['name'];
     $postedFileExtension = pathinfo($postedFileName,PATHINFO_EXTENSION);
     $isImg = in_array($postedFileExtension, $imgAccepted);
-    $isVid = in_array($postedFileExtension, $vidAccepted);
 
-    if($type == 1 && $isImg) {
+    if($isImg) {
       return true;
     }
-    if($type == 0 && $isVid) {
-      return true;
-    }
-
     return false;
   }
 
   //create
-  function createPic($description,$postFile,$user,$mime,$feed,$field,$ajax = 0) {
+  function createPic($description,$postFile,$user,$feed,$field,$ajax = 0) {
     global $data;
 
     $data->utilityFilter($description);
     $data->utilityFilter($path);
     $data->utilityFilter($user);
-    $data->utilityFilter($mime);
     $data->utilityFilter($feed);
 
 
-    if(!checkFormat($postFile,$mime,$field)) {
+    if(!checkFormat($postFile,$field)) {
      die("Format error");
     }
 
-    if($mime == 1)
-    	$path = saveFile($postFile, "./pics/",".jpeg");
-    else
-    	$path = saveFile($postFile, "./pics",".mp4");  
-    $query = "INSERT INTO pics(description,path,userId,mime,feed) VALUES('$description','$path',$user,$mime,$feed)";
+    $path = saveFile($postFile, "./pics/",".jpeg");
+    $query = "INSERT INTO pics(description,path,userId,feed) VALUES('$description','$path',$user,$feed)";
     $result = $data->query($query,0);
 
     if($ajax) {
@@ -86,6 +76,30 @@
     if($ajax)
       echo $data->ExtendedJSONResult();
     else
+      return $data->arrayResult();
+  }
+
+  function getRelatedFeed($userId,$ajax = 0) {
+    global $data;
+    $data->utilityFilter($userId);
+
+    $query = "SELECT DISTINCT EP.* FROM extendedFeedPics EP WHERE EP.id IN (
+                SELECT C.picId FROM comments C WHERE( C.userId IN (
+                  SELECT F.followed FROM followship F WHERE F.follower = $userId
+                )
+              )
+              OR EP.id IN (
+                SELECT L.picId FROM likes L WHERE L.userId IN (
+                  SELECT F.followed FROM followship F WHERE F.follower = $userId
+              )
+            )) AND EP.id NOT IN (
+                SELECT EP2.id FROM extendedFeedPics EP2 
+                WHERE EP2.userId IN 
+                (SELECT followed FROM followship WHERE follower = $userId) OR EP2.userId = $userId);";
+    $data->query($query);
+    if($ajax)
+      echo $data->ExtendedJSONResult();
+    else 
       return $data->arrayResult();
   }
 
@@ -131,22 +145,6 @@
       echo $data->insertedId;
     else
       return $data->insertedId;
-  }
-
-  function tagPic($picId,$tags,$ajax = 0) {
-    global $data;
-    $result = 0;
-    $data->utilityFilter($userId);
-    $baseQuery = "CALL tagPic($picId,'";
-    for($i = 0; $i < count($tags); ++$i) {
-      $data->utilityFilter($tags[$i]);
-      $result += $data->query($baseQuery . $tags[$i] . "')");
-    }
-    if($ajax) {
-      echo $result;
-    } else {
-      return $result;
-    }
   }
 
   function getPicComments($picId,$ajax = 0) {

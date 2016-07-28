@@ -63,7 +63,7 @@
    		$message = $_POST['message'];
    		$picId = null;
    		if(isset($_FILES['attachment']))
-   			$picId = createPic("",$_FILES['attachment'],$userId,1,0,"attachment",0);
+   			$picId = createPic("",$_FILES['attachment'],$userId,0,"attachment",0);
    		sendMessage($userId,$dest,$message,$picId,1);
    		break;
 
@@ -85,14 +85,14 @@
    	case 'getFollowed':
    		session_start();
    		if(!isset($_SESSION['logged'])) break;
-   		$userId = $_SESSION['id'];
+   		$userId = $_GET['id'];
    		getFollow($userId,1,1);
    		break;
 
    	case 'getFollowers':
 		session_start();
    		if(!isset($_SESSION['logged'])) break;
-   		$userId = $_SESSION['id'];
+   		$userId = $_GET['id'];
    		getFollow($userId,0,1);
    		break;
 

@@ -39,3 +39,8 @@ aside.flex-parent {
 .flex-4 {
   flex-basis: 25%;
 }
+
+.fixed-img {
+  width:100%;
+  max-width:724px;
+  max-height: 724px;}

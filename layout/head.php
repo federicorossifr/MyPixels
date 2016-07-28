@@ -16,4 +16,5 @@
 	<script type="text/javascript" src="./js/modal.js"></script>
 	<script type="text/javascript" src="./js/forms.js"></script>
 	<script type="text/javascript" src="./js/notifies.js"></script>
+	<script type="text/javascript" src="./js/initPictureShowcase.js"></script>
 </head>

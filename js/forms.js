@@ -38,12 +38,14 @@ function checkForm(form) {
 }
 
 
-function setFileTrigger(container,fileInput) {
+function setFileTrigger(container,fileInput,callback) {
 	container.onclick = function() {
 		fileInput.click();
 	}
 
 	fileInput.onchange = function(event) {
 		container.textContent = event.target.value;
+		if(callback)
+			callback(event);
 	}
 }

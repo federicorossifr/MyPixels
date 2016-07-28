@@ -24,11 +24,13 @@
   padding-left:10px;
 	padding-top:5px;
   transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+	text-decoration: none;
+	color:inherit;
 }
 
 .pic-details {
 	width:100%;
-	height:calc(100% - 40px);
+	height:calc(100% - 39px);
 	position: absolute;
 	top:35px;
 	left:0;

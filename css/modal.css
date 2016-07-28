@@ -34,3 +34,13 @@
   top:0;
   cursor: pointer;
 }
+
+ul.scrollable {
+  width:300px;
+  height: 300px;
+  overflow-y:auto;
+}
+
+ul.scrollable > li a {
+  text-align: center;
+}

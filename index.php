@@ -45,8 +45,17 @@
 		}
 	}
 
+	function registerCompleted(result) {
+		if(!isNaN(result) && parseInt(result) > 0) {
+			document.getElementById("modalText").textContent = "Registrazione completata, effettua l'accesso!";
+		} else {
+			document.getElementById("modalText").textContent = "C'è stato un errore";
+		}
+		showModal(document.getElementById("gpModal"));
+	}
+
 	setAjax(document.getElementById("loginForm"),loginCompleted);
-	setAjax(document.getElementById("registerForm"),alert);
+	setAjax(document.getElementById("registerForm"),registerCompleted);
 	checkForm(document.getElementById("loginForm"));
 	checkForm(document.getElementById("registerForm"));
 </script>

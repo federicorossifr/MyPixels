@@ -28,7 +28,6 @@ CREATE TABLE pics (
     path VARCHAR(200) NOT NULL,
     created DATETIME NOT NULL,
     userId INTEGER NOT NULL,
-    mime BOOLEAN NOT NULL, /*  1=image, 0=video  */
     feed BOOLEAN NOT NULL, /* 1=feed 0=other */
     FOREIGN KEY(userId) REFERENCES users(id) 
         ON UPDATE CASCADE
@@ -67,21 +66,6 @@ CREATE TABLE comments(
     FOREIGN KEY(picId) REFERENCES pics(id)
         ON UPDATE CASCADE
         ON DELETE CASCADE
-);
-
-CREATE TABLE tags(
-    id INTEGER PRIMARY KEY AUTO_INCREMENT,
-    tagName VARCHAR(45) NOT NULL
-);
-
-CREATE TABLE tagShip(
-    tagId INTEGER NOT NULL,
-    picId INTEGER NOT NULL,
-    FOREIGN KEY(tagId) REFERENCES tags(id)
-        ON UPDATE CASCADE ON DELETE CASCADE,
-    FOREIGN KEY(picId) REFERENCES pics(id)
-        ON UPDATE CASCADE ON DELETE CASCADE,
-    PRIMARY KEY(tagId,picId)
 );
 
 CREATE TABLE messages(
@@ -123,7 +107,6 @@ DROP TRIGGER IF EXISTS newFollower;
 DROP TRIGGER IF EXISTS newLike;
 DROP TRIGGER IF EXISTS newComment;
 DROP TRIGGER IF EXISTS newMessage;
-DROP TRIGGER IF EXISTS tagPic;
 DROP TRIGGER IF EXISTS currTimePicCreated;
 DROP TRIGGER IF EXISTS currTimeMsgCreated;
 
@@ -160,25 +143,6 @@ CREATE TRIGGER currTimeMsgCreated
 BEFORE INSERT ON messages FOR EACH ROW
     SET NEW.messageTime = CURRENT_TIME();
 
-/**** STORED PROCEDURE TO HELP PIC'S TAG***/
-DROP PROCEDURE IF EXISTS tagPic;
-DELIMITER $$
-CREATE PROCEDURE tagPic (IN picId INTEGER, IN tagName VARCHAR(45)) 
-BEGIN
-    DECLARE tagId INT DEFAULT NULL;
-    /** CHECK IF TAG ALREADY EXISTS */
-    SELECT  id  INTO tagId FROM tags T WHERE T.tagName = tagName;
-    
-    IF tagId IS NOT NULL THEN /* TAG ALREADY EXISTS */
-        INSERT INTO tagship(tagId,picId) VALUES(tagId,picId);
-    END IF;
-    
-    IF tagId IS NULL THEN
-        INSERT INTO tags(tagName) VALUES(tagName);
-        INSERT INTO tagship(tagId,picId) VALUES(LAST_INSERT_ID(),picId);
-    END IF;
-END $$
-DELIMITER ;
 
 /**** STORED PROCEDURE TO HELP USER'S FOLLOW***/
 DROP PROCEDURE IF EXISTS followUser;

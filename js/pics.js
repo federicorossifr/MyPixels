@@ -89,15 +89,12 @@ function setThumbAction(thumbClicked,otherThumb,pic,counterUp,counterDown,vote) 
 
 function displayPic(container,pic) {
 	var picElement;
-    if(pic.mime == 1) {
-      picElement = document.createElement("img");
-    } else {
-      picElement = document.createElement("video");
-    }
+    picElement = document.createElement("img");
     picElement.src = pic.path;
     picElement.className = "flexible-img";
 
-    var creatorLabel = document.createElement("span");
+    var creatorLabel = document.createElement("a");
+    creatorLabel.href = "./profile.php?user="+pic.userId;
     creatorLabel.className = "creator-label thin";
     creatorLabel.textContent = pic.username;
 
@@ -198,7 +195,7 @@ function showPicModal(pic,feedContainer) {
 
 	var img = document.createElement("img");
 	img.src = pic.path;
-	img.className = "flexible-img";
+	img.className = "fixed-img";
 
 	var picDescription = document.createElement("div");
 	picDescription.textContent = recape(pic.description);
