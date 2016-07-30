@@ -103,6 +103,22 @@
       return $data->rows;
   }
 
+  function setPic($userId,$picId,$ajax = 0) {
+    global $data;
+    $data->utilityFilter($userId);
+    $data->utilityFilter($picId);
+    $query = "UPDATE users SET profilePic = $picId WHERE id = $userId";
+    $data->query($query);
+    $pathQuery = "SELECT path FROM pics WHERE id = $picId";
+    $result = $data->query($pathQuery);
+
+    if($ajax)
+      echo $data->JSONResult();
+    else
+      return $data->arrayResult();
+
+  }
+
   function followUser($follower,$followed,$ajax = 0) {
     global $data;
     $data->utilityFilter($follower);

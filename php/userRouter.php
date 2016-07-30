@@ -55,6 +55,16 @@
         emptyNotifies($userId,1);
         break;
 
+    case 'setPic':
+        session_start();
+        if(!isset($_SESSION['logged'])) break;
+          $userId = $_SESSION['id'];
+        $picId = null;
+        if(isset($_FILES['pic']))
+          $picId = createPic("",$_FILES['pic'],$userId,0,"pic",0);
+        setPic($userId,$picId,1);
+        break;
+
    	case 'sendMessage':
    		session_start();
         if(!isset($_SESSION['logged'])) break;

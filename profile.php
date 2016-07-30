@@ -21,6 +21,7 @@
 		<div class="user-details">
 			<h2><?= $user[0]["firstName"] . " " . $user[0]["surname"] ?><br><small> @<?= $user[0]["username"] ?></small></h2>
 			<?php if($me) { ?>
+				<a id="profilePicButton" class="submitButton" href="#">Cambia immagine</a>
 				<a id="logoutButton" class="submitButton" href="./php/userRouter.php?route=logout">Esci</a>
 			<?php } else { $sText = ($user[0]["following"] == "1")?"Segui gi&agrave;":"Segui";?>
 				<a id="followButton" class="submitButton" href="./php/userRouter.php?route=follow&amp;followed=<?= $_GET['user'] ?>"><?php echo $sText ?></a>
@@ -37,6 +38,21 @@
 			<ul id="social-list" class="chat-list scrollable">
 				
 			</ul>				
+		</div>
+	</div>
+
+	<div id="change-modal" class="modal">
+		<div class="modal-body">
+			<a class="modal-close" onclick="hideModal(this.parentNode.parentNode)">&times;</a>
+			<div class="flex-parent">
+				<form id="change-form" enctype="multipart/form-data" action="./php/userRouter.php?route=setPic" method="POST">
+						<div id="pic-file" class="inputfile wide">
+							Seleziona immagine...
+		        		</div>
+						<input type="file" required name="pic"><br>
+						<input class="submitButton wide" type="submit" value="Cambia">
+				</form>
+			</div>			
 		</div>
 	</div>
 </body>
@@ -95,7 +111,17 @@
 
   	makeAjaxAnchor(document.getElementById("followed-button"),socialLoaded);
 	makeAjaxAnchor(document.getElementById("followers-button"),socialLoaded);
+  	setFileTrigger(document.getElementById("pic-file"),document.getElementById("change-form").pic);
 
+  	setAjax(document.getElementById("change-form"),function(result) {
+  		var picPath = JSON.parse(result)[0]["path"];
+  		console.log(picPath);
+  		document.getElementById("profilePic").src = picPath;
+  	})
+
+  	document.getElementById("profilePicButton").onclick = function() {
+  		showModal(document.getElementById("change-modal"));
+  	}
   	makeActiveLink("profile");
 </script>
 </html>
