@@ -22,7 +22,7 @@
 	<main id="picturesContainer" class="flex-parent">
 
 	</main>
-	<a id="new-button" class="floating" href="#"><img src="./res/new.png"></img></a>
+	<a id="new-button" class="floating" href="#"><img alt="new" src="./res/new.png"></img></a>
 	<?php include "./layout/creationModal.php"; ?>
 </body>
 

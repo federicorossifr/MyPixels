@@ -28,7 +28,7 @@
 					Seleziona un file...
         </div>
 				<input type="file" name="attachment">
-        <input type="hidden" required number name="dest">
+        <input type="hidden" name="dest">
 				<input class="submitButton" type="submit" value="Invia">
 			</form>
 		</div>
@@ -71,6 +71,7 @@
         chatContainer.appendChild(messagesLis[i]);
         if(messages[i].path) {
           messagesPics[i] = document.createElement("img");
+          messagesPics[i].alt = "attachment";
           messagesPics[i].src = messages[i].path;
           messagesPics[i].className = "message-pic";
           messagesLis[i].appendChild(document.createElement("hr"));
@@ -128,7 +129,7 @@
     document.getElementById("user-list").style.display = "block";
     document.getElementById("chat-toggle").style.fontFamily = "rt";
     document.getElementById("user-toggle").style.fontFamily = "rr";
-    get("./php/userRouter.php?route=getFollowed",function(result) {
+    get("./php/userRouter.php?route=getFollowed&id="+userId,function(result) {
       chatsLoaded(result,document.getElementById("user-list"));
     }) 
   }

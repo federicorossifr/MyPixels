@@ -33,6 +33,7 @@ aside#orderPics {
 	width:70%;
 	text-align: right;
 	padding-right:5px;
+	overflow-x: auto;
 }
 
 #profilePic {

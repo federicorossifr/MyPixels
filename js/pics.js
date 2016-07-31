@@ -6,6 +6,7 @@ function makeMoreContent(pic) {
     /*thumb up*/
    	var tupA = document.createElement("a");
     var tup = document.createElement("img");
+    tup.alt = "thumb up"
    	if(pic.userLiked == 1)
     	tup.src = "./res/thumbActive.png";
     else
@@ -19,6 +20,7 @@ function makeMoreContent(pic) {
     /*thumb down*/
     var tdownA = document.createElement("a");
     var tdown = document.createElement("img");
+    tdown.alt = "thumb down";
     if(pic.userLiked == 0)
     	tdown.src = "./res/thumbActive.png";
     else
@@ -47,6 +49,7 @@ function makeCommentIcons(pic) {
 	var commentCount = document.createElement("span")
 	commentCount.textContent = pic.comments;
 	var commentIcon = document.createElement("img");
+	commentIcon.alt = "comment";
 	commentIcon.width = "50";
 	commentIcon.src = "./res/comment.png";
 	return {"icon":commentIcon,"count":commentCount};
@@ -92,6 +95,7 @@ function displayPic(container,pic) {
     picElement = document.createElement("img");
     picElement.src = pic.path;
     picElement.className = "flexible-img";
+    picElement.alt = pic.description;
 
     var creatorLabel = document.createElement("a");
     creatorLabel.href = "./profile.php?user="+pic.userId;
@@ -147,7 +151,7 @@ function displayComments(result,container) {
     };
 }
 
-function displayCommentForm(container,pic,feedContainer) {
+function displayCommentForm(container,pic,feedContainer,modal) {
 	var commentForm = document.createElement("form");
 	commentForm.method = "POST";
 	commentForm.className = "fixed-form";
@@ -182,6 +186,7 @@ function displayCommentForm(container,pic,feedContainer) {
 	    		pic.comments = parseInt(pic.comments) +1;
 	    		picIterator(feedContainer);
 	    		inputText.value ="";
+	    		showModal(modal);
     		});
 		};
 	});
@@ -196,6 +201,7 @@ function showPicModal(pic,feedContainer) {
 	var img = document.createElement("img");
 	img.src = pic.path;
 	img.className = "fixed-img";
+	img.alt = pic.description;
 
 	var picDescription = document.createElement("div");
 	picDescription.textContent = recape(pic.description);
@@ -216,7 +222,7 @@ function showPicModal(pic,feedContainer) {
 	var modal = createModal(modalContent);
 	get("./php/picRouter.php?route=getPicComments&picId="+pic.id,function(result) {
     	displayComments(result,innerCDiv);
-    	displayCommentForm(cDiv,pic,feedContainer);
+    	displayCommentForm(cDiv,pic,feedContainer,modal);
     	showModal(modal);
     });
 }

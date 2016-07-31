@@ -17,17 +17,17 @@
 <body>
 	<?php include "./layout/topBar.php"; ?>
 	<aside class="flex-parent">
-		<div class="user-picture"><img width="200" id="profilePic" src="./res/anonymous.png"></div>
+		<div class="user-picture"><img alt="profile" width="200" id="profilePic" src="./res/anonymous.png"></div>
 		<div class="user-details">
 			<h2><?= $user[0]["firstName"] . " " . $user[0]["surname"] ?><br><small> @<?= $user[0]["username"] ?></small></h2>
+			<?="<a id='followers-button' href='./php/userRouter.php?route=getFollowers&id=" . $_GET['user'] . "' class='submitButton'>" .  $user[0]["followers"] . " seguaci</a>"?>
+			<?="<a id='followed-button' href='./php/userRouter.php?route=getFollowed&id=" . $_GET['user'] . "' class='submitButton'>" .  $user[0]["followeds"] . " seguiti</a>"?>	
 			<?php if($me) { ?>
 				<a id="profilePicButton" class="submitButton" href="#">Cambia immagine</a>
 				<a id="logoutButton" class="submitButton" href="./php/userRouter.php?route=logout">Esci</a>
 			<?php } else { $sText = ($user[0]["following"] == "1")?"Segui gi&agrave;":"Segui";?>
 				<a id="followButton" class="submitButton" href="./php/userRouter.php?route=follow&amp;followed=<?= $_GET['user'] ?>"><?php echo $sText ?></a>
 			<?php } ?>
-			<?="<a id='followers-button' href='./php/userRouter.php?route=getFollowers&id=" . $_GET['user'] . "' class='submitButton'>" .  $user[0]["followers"] . " seguaci</a>"?>
-			<?="<a id='followed-button' href='./php/userRouter.php?route=getFollowed&id=" . $_GET['user'] . "' class='submitButton'>" .  $user[0]["followeds"] . " seguiti</a>"?>	
 		</div>
 	</aside>
 	<main id="picturesContainer" class="flex-parent">
