@@ -34,9 +34,7 @@ textarea {
   font-family: rl;
 }
 
-input:invalid, input:required {
-  box-shadow: none;
-}
+
 
 input.invalid {
   border:1px solid rgba(255,0,0,0.66);
