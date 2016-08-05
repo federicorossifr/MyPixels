@@ -11,7 +11,7 @@ CREATE TABLE users (
     profilePic INTEGER
 );
 
-CREATE TABLE followShip(
+CREATE TABLE followship(
     follower INTEGER NOT NULL,
     followed INTEGER NOT NULL,
     FOREIGN KEY(follower) REFERENCES users(id)
@@ -112,7 +112,7 @@ DROP TRIGGER IF EXISTS currTimeMsgCreated;
 
 /* TRIGGERS FOR NOTIFY SYSTEM UPDATE */
 CREATE TRIGGER newFollower 
-AFTER INSERT ON  followShip FOR EACH ROW
+AFTER INSERT ON  followship FOR EACH ROW
     INSERT INTO notifies(userId,actionDone,userDone,eventAt) VALUES(NEW.followed,"FOLLOW",NEW.follower,CURRENT_TIME);
 
 
