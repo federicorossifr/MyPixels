@@ -1,3 +1,5 @@
+//Inizializza la griglia di foto visibile nella pagina home
+//e nella pagina explore. (condivisa)
 function initShowcase(route,location) {
 	get("./php/userRouter.php?route=getSession",function(result) {
     	var dataObj = JSON.parse(result);

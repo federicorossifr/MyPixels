@@ -1,5 +1,11 @@
 
-
+//*********************************************/
+//Funzione di utilità per semplificare
+//l'esecuzione asincrona di una chiamata
+//di tipo GET.
+//url = indirizzo su cui effettuare la chiamata
+//callback = funzione da eseguire al completamento
+//********************************************/
 
 function get(url,callback) {
     var client = new XMLHttpRequest();
@@ -13,6 +19,14 @@ function get(url,callback) {
 }
 
 
+//*********************************************/
+//Funzione di utilità per semplificare
+//l'esecuzione asincrona di una chiamata
+//di tipo POST.
+//formElement = form da cui effettuare la chiamata
+//callback = funzione da eseguire al completamento
+//********************************************/
+
 function post(formElement,callback) {
   var client = new XMLHttpRequest();
 
@@ -22,9 +36,8 @@ function post(formElement,callback) {
     }
   };
 
-  var data = new FormData();
+  var data = new FormData(); //Preparazione di un oggetto FormData per l'invio dei dati
   var elements = formElement.querySelectorAll("input, select, textarea");
-  console.log(elements);
   for (var i = 0; i < elements.length; i++) {
     var element = elements[i];
 
@@ -39,7 +52,6 @@ function post(formElement,callback) {
     } else {
       if(element.type == "radio") {
         if(element.checked) {
-          console.log("Radio checked");
           data.append(element.name,element.value);
         }
       } else data.append(element.name,escape(element.value));
@@ -50,6 +62,8 @@ function post(formElement,callback) {
   client.send(data);
 }
 
+//Dato un elemento FORM associa all'evento onsubmit un handler
+//diverso dal predefinito per gestire la chiamata AJAX.
 function setAjax(formElement,callback) {
   if(!formElement) return;
   var submitter = formElement.querySelector("input[type='submit']");
@@ -68,7 +82,7 @@ function setAjax(formElement,callback) {
           callback(result);
         });
         break;
-      case "GET":
+      case "GET": //costruzione dell'URL a partire dai parametri contenuti nel FORM
       default:
         var url = formElement.action + "&";
         var inputs = formElement.querySelectorAll("input, select");
@@ -87,14 +101,12 @@ function setAjax(formElement,callback) {
     }
   }
 }
-
+//Rende un ancora <a href="...">..</a> soggetto di chiamata asincrona GET al click.
 function makeAjaxAnchor(anchor,callback) {
     if(!anchor) return;
     anchor.onclick = function(event) {
       event.preventDefault();
       event.stopPropagation();
-
       get(anchor.href,callback);
-
     }
   }

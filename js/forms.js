@@ -1,24 +1,4 @@
-function catchTags(inputElement,memory,display) {
-	var tagz = [];
-	console.log(inputElement);
-	inputElement.oninput = function(event) {
-		var displaySpans = [];
-		var hashtagPattern = /#([a-zA-Z0-9])+( |$)/g;
-		var contentTyped =  event.target.value;
-		tagz = contentTyped.match(hashtagPattern);
-		tagz = (tagz) ? tagz : [];
-		empty(display);
-		for(var i = 0; i < tagz.length; ++i) {
-			tagz[i]=tagz[i].trim();
-			displaySpans[i] = document.createElement("span");
-			displaySpans[i].className = "hashtag";
-			displaySpans[i].textContent = tagz[i];
-			display.appendChild(displaySpans[i]);
-		}
-		memory.value = JSON.stringify(tagz);
-	}
-}
-
+//Controlla la validità di un singolo campo di un FORM
 function checkInput(event) {
 	if(event.target.validity.valid)
 		event.target.className = event.target.getAttribute("data-class") + " valid";
@@ -26,6 +6,7 @@ function checkInput(event) {
 		event.target.className = event.target.getAttribute("data-class") + " invalid";
 }
 
+//Imposta un elemento di tipo form ad essere validato con la funzione checInput
 function checkForm(form) {
 	var formElements = form.querySelectorAll("input:not([type='submit'])");
 	for(var i = 0; i < formElements.length; ++i) {
@@ -38,6 +19,8 @@ function checkForm(form) {
 }
 
 
+//Simula il click su di un <input type="file" /> a partire
+//dal click su di un altro elemento (container).
 function setFileTrigger(container,fileInput,callback) {
 	container.onclick = function() {
 		fileInput.click();
