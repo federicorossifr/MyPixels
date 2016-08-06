@@ -1,9 +1,12 @@
 /* FUNZIONI DI APPOGGIO PER LA CREAZIONE DEGLI ELEMENTI DI UN ELEMENTO PIC */
+
+//Costruisce il contenuto che viene mostrato quando si passa con il mouse
+//sopra un elemento pic.
 function makeMoreContent(pic) {
 	var moreContent = document.createElement("div");
 
 
-    /*thumb up*/
+    /*thumb up*/ //Creazione del "bottone" per pollice in su"
    	var tupA = document.createElement("a");
     var tup = document.createElement("img");
     tup.alt = "thumb up"
@@ -17,7 +20,7 @@ function makeMoreContent(pic) {
     tupA.appendChild(tup);
 
 
-    /*thumb down*/
+    /*thumb down*/ //Creazione del bottone per "pollice in giù"
     var tdownA = document.createElement("a");
     var tdown = document.createElement("img");
     tdown.alt = "thumb down";
@@ -30,9 +33,17 @@ function makeMoreContent(pic) {
     tdownCount.textContent = pic.down;
     tdownA.appendChild(tdown);
    
+
+   	//Imposto le azioni per i pulsanti appena creati
+   	//devono essere creati con codice separato e non
+   	//condiviso per poter interagire tra loro
+   	//con azioni
     setThumbAction(tdownA,tupA,pic,tupCount,tdownCount,0);
     setThumbAction(tupA,tdownA,pic,tupCount,tdownCount,1);
 
+
+    //Creazione dell'icona per i commenti e del contatore
+    //dei commenti
     var commentIcons = makeCommentIcons(pic);
 
     moreContent.appendChild(tupCount);
@@ -45,6 +56,9 @@ function makeMoreContent(pic) {
 }
 
 
+//Creo l'iconda dei commenti e il contatore dei commenti
+//ritorna un oggetto con l'img contentente l'icona e 
+//un campo testuale contente il contatore dei commenti
 function makeCommentIcons(pic) {
 	var commentCount = document.createElement("span")
 	commentCount.textContent = pic.comments;
@@ -56,6 +70,7 @@ function makeCommentIcons(pic) {
 }
 
 
+//Imposta le azioni al click dei pollici in su o in giù
 function setThumbAction(thumbClicked,otherThumb,pic,counterUp,counterDown,vote) {
 	thumbClicked.href = "./php/picRouter.php?route=likePic&picId="+pic.id+"&vote="+vote;
 	makeAjaxAnchor(thumbClicked,function(result) {
@@ -63,12 +78,12 @@ function setThumbAction(thumbClicked,otherThumb,pic,counterUp,counterDown,vote) 
 		counterUp.textContent = results.up;
 		counterDown.textContent = results.down;
 
-		if(vote == 1) {
-			pic.up = parseInt(pic.up) + 1;
-			if(pic.userLiked == 0)
-				pic.down = parseInt(pic.down) - 1;
+		if(vote == 1) { //Se il voto è in su
+			pic.up = parseInt(pic.up) + 1; //aggiorno il contatore "up"
+			if(pic.userLiked == 0) //se il voto precedente era "down"
+				pic.down = parseInt(pic.down) - 1; //decremento il relativo contatore
 		}
-		if(vote == 0) {
+		if(vote == 0) { //stesso se il voto è down
 			pic.down = parseInt(pic.down) + 1;
 			if(pic.userLiked == 1)
 				pic.up = parseInt(pic.up) - 1;
@@ -76,10 +91,15 @@ function setThumbAction(thumbClicked,otherThumb,pic,counterUp,counterDown,vote) 
 
 		thumbClicked.querySelector("img").src = "./res/thumbActive.png";
 		otherThumb.querySelector("img").src = "./res/thumb.png";
+
+		//Se il voto è uguale a quello già espresso 
+		//l'utente ha voluto eliminare completamente
+		//la valutazione. Il voto è già stato incrementato
+		//tuttavia, quindi si decrementa di due.
 		if(vote == pic.userLiked) {
 			thumbClicked.querySelector("img").src = "./res/thumb.png";
 			pic.userLiked = undefined;
-			pic.up = parseInt(pic.up) - 2;
+			pic.up = parseInt(pic.up) - 2; /*************/
 		} else {
 			pic.userLiked = vote;
 		}
@@ -90,6 +110,9 @@ function setThumbAction(thumbClicked,otherThumb,pic,counterUp,counterDown,vote) 
 /*********************************************/
 
 
+
+//Gestisce la creazione e la disposizione
+//di un elemento pic in un container
 function displayPic(container,pic) {
 	var picElement;
     picElement = document.createElement("img");
@@ -114,6 +137,8 @@ function displayPic(container,pic) {
     return moreContent;
 }
 
+//Itera sull'array globale di elementi pic
+//per mostrarli in un feedContainer
 function picIterator(feedContainer) {
 	var containers = [];
 	empty(feedContainer);
