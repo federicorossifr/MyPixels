@@ -158,6 +158,9 @@ function picIterator(feedContainer) {
 	}
 }
 
+
+//Funzione per la disposizione di un array di commenti "result"
+//in un contenitore "container"
 function displayComments(result,container) {
 	empty(container);
 	var dataObj = JSON.parse(result);
@@ -176,6 +179,11 @@ function displayComments(result,container) {
     };
 }
 
+
+
+//Funzione per la creazione di un form per l'invio di commenti
+//a una "pic" in un "container". Necessita di feedContainer e modal
+//per l'aggiornamento della view di pic.
 function displayCommentForm(container,pic,feedContainer,modal) {
 	var commentForm = document.createElement("form");
 	commentForm.method = "POST";
@@ -217,6 +225,9 @@ function displayCommentForm(container,pic,feedContainer,modal) {
 	});
 }
 
+
+//Mostra il modal relativo ad una pic. Necessita
+//di feedContainer per l'aggiornamento della vista.
 function showPicModal(pic,feedContainer) {
 	var modalContent = document.createElement("div");
 	modalContent.className = "flex-parent";
@@ -252,6 +263,9 @@ function showPicModal(pic,feedContainer) {
     });
 }
 
+
+
+//Callback per il caricamento ajax delle pic.
 function picsLoaded(result,feedContainer) {
 	var dataObj = JSON.parse(result);
 	globals.pics = dataObj.data;
@@ -259,27 +273,36 @@ function picsLoaded(result,feedContainer) {
 }
 
 
+
+//Ordinamento in base ai pollici in su
 function upSort(picA,picB) {
 	var upA = picA.up;
 	var upB = picB.up;
 	return upA < upB;
 }
 
+
+//Ordinamento in base ai pollici in giù
 function downSort(picA,picB) {
 	var downA = picA.down;
 	var downB = picB.down;
 	return downA < downB;
 }
 
+
+//Ordinamento in base alla data
 function dateSort(picA,picB) {
 	return new Date(picB.created) - new Date(picA.created);
 }
 
+
+//Ordinamento in base ai commenti
 function commentSort(picA,picB) {
 	return picA.comments < picB.comments;
 }
 
-
+//Switch per la scelta del criterio di ordinamento dell'array
+//globale di pic (sort funzione di libreria jaavascript)
 function doSort(sortType,newContainer) {
 	switch(sortType) {
 		case 'up':
@@ -301,6 +324,8 @@ function doSort(sortType,newContainer) {
 	}
 }
 
+
+//Cerca tramite l'id l'elemento pic nell'arrya globale di Pic.
 function findPicById(id) {
 	for(var i = 0; i < globals.pics.length; ++i) {
 		if(globals.pics[i].id == id)

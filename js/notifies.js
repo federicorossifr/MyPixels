@@ -1,3 +1,6 @@
+//Funzione per la creazione del testo di una notifica a partire
+//dal risultato estratto dal server. Un identificatore specifica il tipo
+//della notifica.
 function makeNotifyText(notify,feedContainer,anchor) {
 	var action = notify.actionDone;
 
@@ -26,6 +29,7 @@ function makeNotifyText(notify,feedContainer,anchor) {
 	}
 }
 
+//Callback per l'estrazione AJAX di un array "result" di notifiche
 function displayNotifies(result,container,counter,feedContainer) {
 	var resultObj = JSON.parse(result);
 	var notifies = resultObj.data;
@@ -48,7 +52,7 @@ function displayNotifies(result,container,counter,feedContainer) {
 }
 
 
-
+//Funzione per che mostra/nasconde il popup delle notifiche a schermo.
 function toggleNotifies() {
 	var popup = document.getElementById("notifies-popup");
 	var state = popup.style.display;
