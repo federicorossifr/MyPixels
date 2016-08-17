@@ -38,7 +38,7 @@
 </body>
 
 <script type="text/javascript">
-  	makeActiveLink("notifies-link");
+  	makeActiveLink("profile");
   	var userId = <?= $session["data"]["id"] ?>;
   	function displayChats(chats,container,chatContainer) {
   		empty(container);

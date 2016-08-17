@@ -61,7 +61,7 @@
   	});
   	checkForm(document.getElementById("creation-form"));
   	setAjax(document.getElementById("creation-form"),function(result) {
-  		alert(result);
+  		initShowcase("getFeed","home");
   	})
 </script>
 </html>

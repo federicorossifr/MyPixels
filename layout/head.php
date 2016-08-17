@@ -17,4 +17,5 @@
 	<script type="text/javascript" src="./js/forms.js"></script>
 	<script type="text/javascript" src="./js/notifies.js"></script>
 	<script type="text/javascript" src="./js/initPictureShowcase.js"></script>
+	<script type="text/javascript" src="./js/social.js"></script>
 </head>

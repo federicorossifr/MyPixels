@@ -13,10 +13,11 @@ function initShowcase(route,location) {
 		});
   	}
 
-  	document.getElementById("orderSelector").onchange = function(event) {
-  		this.blur();
-  		doSort(event.target.value,document.getElementById("picturesContainer"));
-  	}
+  	if(document.getElementById("orderSelector"))
+	  	document.getElementById("orderSelector").onchange = function(event) {
+	  		this.blur();
+	  		doSort(event.target.value,document.getElementById("picturesContainer"));
+	  	}
 
   	get("./php/userRouter.php?route=getNotifies",function(result) {
 		displayNotifies(result,document.getElementById("notifies"),document.getElementById("notifies-count"),document.getElementById("picturesContainer"));

@@ -13,7 +13,7 @@
 							<?php include __DIR__ .  "/notifies.php"; ?>
 							<span class="bold" id="notifies-count"></span>
 						</li>
-						<li id="explore"><a href="./messages.php"><img alt="explore" src="./res/explore.png"><img alt="explore" src="./res/exploreDark.png"></a></li>
+						<li id="explore"><a href="./explore.php"><img alt="explore" src="./res/explore.png"><img alt="explore" src="./res/exploreDark.png"></a></li>
 					<li id="profile"><a href="./profile.php?user=<?= $session["data"]["id"] ?>"><img alt="profile" src="./res/profile.png"><img alt="profile" src="./res/profileDark.png"></a></li>
 					<li class="userLabel"><?= $session["data"]["username"] ?></li></ul>
 				<?php } else { ?>

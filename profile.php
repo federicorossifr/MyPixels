@@ -24,6 +24,7 @@
 			<?="<a id='followed-button' href='./php/userRouter.php?route=getFollowed&id=" . $_GET['user'] . "' class='submitButton'>" .  $user[0]["followeds"] . " seguiti</a>"?>	
 			<?php if($me) { ?>
 				<a id="profilePicButton" class="submitButton" href="#">Cambia immagine</a>
+				<a href="./messages.php" class="submitButton">Messaggi</a>
 				<a id="logoutButton" class="submitButton" href="./php/userRouter.php?route=logout">Esci</a>
 			<?php } else { $sText = ($user[0]["following"] == "1")?"Segui gi&agrave;":"Segui";?>
 				<a id="followButton" class="submitButton" href="./php/userRouter.php?route=follow&amp;followed=<?= $_GET['user'] ?>"><?php echo $sText ?></a>
@@ -64,29 +65,10 @@
 		var pic = dataObj.data[0];
 		document.getElementById("profilePic").src = pic.path;
 	});
-
+	initShowcase("getUserFeed&id="+userId,"profile");
 	
-  	function loadPictures(feedContainer) {
-		get("./php/picRouter.php?route=getUserFeed&id="+userId,function(result){
-			picsLoaded(result,feedContainer);
-		});
-  	}
+  	
 
-  	function displaySocial(buddies,container) {
-  		empty(container);
-  		var buddyLis = [];
-  		var buddyAs = [];
-  		for(var i = 0; i < buddies.length; ++i) {
-  			buddyLis[i] = document.createElement("li");
-  			buddyAs[i] = document.createElement("a");
-  			buddyAs[i].textContent = buddies[i].username;
-  			buddyAs[i].href = "./profile.php?user="+buddies[i].userId;
-  			buddyLis[i].appendChild(buddyAs[i]);
-  			container.appendChild(buddyLis[i]);
-  		}
-  	}
-
-  	loadPictures(document.getElementById("picturesContainer"));
   	makeAjaxAnchor(document.getElementById("logoutButton"),function(result) {
   		if(result == 1) window.location.href ="./index.php";
   	})
@@ -96,32 +78,16 @@
   		document.getElementById("followButton").textContent = (resultObj[0].state == "f") ? "Segui gi\340":"Segui";
   	})
 
-  	get("./php/userRouter.php?route=getNotifies",function(result) {
-		displayNotifies(result,document.getElementById("notifies"),document.getElementById("notifies-count"),document.getElementById("picturesContainer"));
-	});
-
-
-	function socialLoaded(result) {
-		var resultObj = JSON.parse(result);
-		var buddies = resultObj.data;
-		displaySocial(buddies,document.getElementById("social-list"));
-		showModal(document.getElementById("social-modal"));
-	}
-
-
   	makeAjaxAnchor(document.getElementById("followed-button"),socialLoaded);
 	makeAjaxAnchor(document.getElementById("followers-button"),socialLoaded);
   	setFileTrigger(document.getElementById("pic-file"),document.getElementById("change-form").pic);
-
   	setAjax(document.getElementById("change-form"),function(result) {
   		var picPath = JSON.parse(result)[0]["path"];
   		console.log(picPath);
   		document.getElementById("profilePic").src = picPath;
   	})
-
   	document.getElementById("profilePicButton").onclick = function() {
   		showModal(document.getElementById("change-modal"));
   	}
-  	makeActiveLink("profile");
 </script>
 </html>
