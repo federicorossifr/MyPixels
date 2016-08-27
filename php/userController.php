@@ -234,16 +234,16 @@
         return $data->arrayResult();
   }
 
-  function userNameExists($username,$ajax = 0) {
+  function searchByUsername($username,$ajax = 0) {
     global $data;
     $data->utilityFilter($username);
-    $query = "SELECT * FROM users WHERE username = '$username'";
+    $query = "SELECT id,username FROM users WHERE username LIKE '%$username%'";
     $data->query($query);
 
     if($ajax) {
-      echo $data->rows;
+      echo $data->ExtendedJSONResult();
     } else {
-      return $data->rows;
+      return $data->arrayResult();
     }
   }
 

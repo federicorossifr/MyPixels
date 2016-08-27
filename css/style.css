@@ -26,7 +26,7 @@ h1 {
 	font-weight: normal;
 }
 
-aside#orderPics {
+aside#orderPics, aside#searchUser {
 	width:100%;
 	margin:0 auto;
 	margin-top:20px;
@@ -75,3 +75,5 @@ hr {
   border-radius: 100%;
 	 box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
 }
+
+aside#searchUser

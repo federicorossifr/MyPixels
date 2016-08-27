@@ -41,6 +41,11 @@
         deleteUserSession();
         break;
 
+    case 'searchByUsername':
+        $username = $_GET['username'];
+        searchByUsername($username,1);
+        break;
+
     case 'getNotifies':
         session_start();
         if(!isset($_SESSION['logged'])) break;
