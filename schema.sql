@@ -119,12 +119,12 @@ AFTER INSERT ON  followship FOR EACH ROW
 CREATE TRIGGER newLike
 AFTER INSERT ON likes FOR EACH ROW
     INSERT INTO notifies(userId,actionDone,userDone,eventAt,picInvolved) 
-    SELECT userId,"LIKE",NEW.userId,CURRENT_TIME,NEW.picId FROM pics WHERE id = NEW.picId;
+    SELECT userId,"LIKE",NEW.userId,CURRENT_TIME,NEW.picId FROM pics WHERE id = NEW.picId AND userId <> NEW.userId;
     
 CREATE TRIGGER newComment
 AFTER INSERT ON comments FOR EACH ROW
     INSERT INTO notifies(userId,actionDone,userDone,eventAt,picInvolved) 
-    SELECT userId,"COMMENT",NEW.userId,CURRENT_TIME,NEW.picId FROM  pics WHERE id = NEW.picId;
+    SELECT userId,"COMMENT",NEW.userId,CURRENT_TIME,NEW.picId FROM  pics WHERE id = NEW.picId AND NEW.userId <> userId;
     
 CREATE TRIGGER newMessage
 AFTER INSERT ON messages FOR EACH ROW

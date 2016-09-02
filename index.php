@@ -21,7 +21,8 @@
 				<input required type="password" name="password" class="light wide" placeholder="Password"><br>
 				<input required pattern="^[a-zA-Z]+$" type="text" name="firstName" class="light wide" placeholder="First name"><br>
 				<input required  pattern="^[a-zA-Z]+$" type="text" name="surname" class="light wide" placeholder="Surname"><br>
-				<input type="submit" class="submitButton regular wide" value="Iscriviti" >
+				<input type="submit" class="submitButton regular wide" value="Iscriviti" ><br><br>
+				<a class="submitButton regular wide" href="./welcome.html">Scopri Pixels</a>
 			</form>
 		</div>
 
