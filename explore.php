@@ -12,7 +12,7 @@
 
 	<aside id="searchUser">
 		<input type="text" id="userSearch" list="users" placeholder="Cerca i tuoi amici...">
-
+		<a class="submitButton" href="#">Vai</a>
 		<datalist id="users">
 		</datalist> 
 	</aside>
@@ -36,8 +36,10 @@
 <script type="text/javascript">
 	initShowcase("getRelatedFeed","explore");
 	var globalSearchedUsers = [];
+	var old = "";
 	document.getElementById("userSearch").oninput = function(event) {
 		var username = event.target.value;
+		if(old == username) {goSelect(username); return;}
 		if(username == "") return;
 		get("./php/userRouter.php?route=searchByUsername&username="+username,function(result) {
 			empty(document.getElementById("users"));
@@ -50,17 +52,19 @@
 				document.getElementById("users").appendChild(globalSearchedUsers[i]);
 			}
 		});
+		old = username;
 	}
 
-	document.getElementById("userSearch").onselect = function(event) {
-		var ss = event.target.value;
+	function goSelect(username) {
+		var ss = username;
 		for(var i = 0; i < globalSearchedUsers.length; ++i) {
 			if(ss == globalSearchedUsers[i].value) {
 				window.location.href ="./profile.php?user="+globalSearchedUsers[i].getAttribute("data-id");
 				break; return;
 			}
-
 		}
 	}
+
+
 </script>
 </html>
