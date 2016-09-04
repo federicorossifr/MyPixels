@@ -103,11 +103,11 @@
       return $data->arrayResult();
   }
 
-  function getUserFeed($userId,$ajax = 0) {
+  function getUserFeed($userId,$userLogged,$ajax = 0) {
     global $data;
     $data->utilityFilter($userId);
 
-    $query = "SELECT *,(SELECT L.upvote FROM likes  L WHERE L.userid = $userId AND  L.picId = EP.id) AS userLiked FROM extendedFeedPics EP WHERE EP.userId = $userId";
+    $query = "SELECT *,(SELECT L.upvote FROM likes  L WHERE L.userid = $userLogged AND  L.picId = EP.id)  AS userLiked FROM extendedFeedPics EP WHERE EP.userId = $userId";
     $data->query($query);
 
     if($ajax)
@@ -158,33 +158,4 @@
       echo $data->ExtendedJSONResult();
     else
       return $data->arrayResult();
-  }
-
-  function getPicTags($picId,$ajax = 0) {
-    global $data;
-    $data->utilityFilter($picId);
-
-    $query = "SELECT TT.* FROM pics P INNER JOIN tagship T ON P.id = T.picId INNER JOIN tags TT ON T.tagId = TT.id WHERE P.id = $picId";
-    $data->query($query);
-
-    if($ajax)
-      echo $data->ExtendedJSONResult();
-    else
-      return $data->arrayResult();    
-  }
-
-
-  /*** DEBUG GET ALL PICS ***/
-  function readAll2($ajax = 0) {
-    global $data;
-
-
-    $query = "SELECT id FROM pics ORDER BY created DESC ";
-
-    $data->query($query);
-
-    if($ajax)
-      echo $data->ExtendedJSONResult();
-    else 
-      return $data->arrayResult();    
   }

@@ -35,8 +35,11 @@
         break;
 
     case 'getUserFeed':
+        session_start();
+        if(!isset($_SESSION['logged'])) break;
+        $userLogged = $_SESSION['id'];
         $userId = $_GET['id'];
-        getUserFeed($userId,1);
+        getUserFeed($userId,$userLogged,1);
         break;
 
     case 'likePic':
@@ -61,19 +64,6 @@
         $picId = $_GET['picId'];
         getPicComments($picId,1);
         break;
-
-    case 'getTags':
-        $picId = $_GET['picId'];
-        getPicTags($picId,1);
-        break;
-
-    case 'readAll':
-        readAll2(1);
-        break;
-
-    default:
-      # code...
-      break;
   }
 
 
