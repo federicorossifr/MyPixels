@@ -14,7 +14,7 @@
         createUser($username,$password,$firstName,$surname,1);
       break;
 
-    case 'updateUser':
+    /*case 'updateUser':
         $userId = $_POST['userId'];
         $newUsername = $_POST['newUsername'];
         $newPassword = $_POST['newPassword'];
@@ -26,10 +26,10 @@
         getUserById($userId,1);
         break;
 
-    /*** debug read all ***/
+    /*** debug read all
     case 'readAll':
         readAll(1);
-        break;
+        break;*/
 
     case 'authenticate':
         $username = $_POST['username'];

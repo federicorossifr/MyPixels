@@ -95,7 +95,7 @@
     if($ajax) {
       	$fetchedUser = $data->JSONResult();
 
-        if($data->rows)
+        if($data->rows) // login ha successo
       	 createUserSession($fetchedUser);
       	echo $fetchedUser;
     }
@@ -139,7 +139,7 @@
 
   	if($followType == 1) //userId as follower
   		$query = "SELECT id as userId,username FROM followship INNER JOIN users ON id = followed WHERE follower = $userId";
-  	else if($followType == 0)
+  	else if($followType == 0) //userId as followed
   		$query = "SELECT id as userId,username FROM followship INNER JOIN users ON id = follower WHERE followed = $userId";
 
   	$data->query($query);
@@ -261,13 +261,13 @@
     unset($_SESSION['logged']);
     unset($_SESSION['id']);
     unset($_SESSION['username']);
-    unset($_SESSION['password']);
     session_destroy();
     echo "1";
   }
 
   function getSession($ajax = 0) {
     session_start();
+    $response = array();
     $response['data'] = $_SESSION;
     $response['length'] = count($_SESSION);
     if($ajax)
@@ -277,5 +277,5 @@
   }
 
   function isLoggedIn($session) {
-    return ($session["length"] && $session["data"]["logged"]);
+    return ($session["length"] && $session["data"]["logged"]); //cortocircuito AND
   }

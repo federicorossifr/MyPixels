@@ -44,3 +44,9 @@ aside.flex-parent {
   width:100%;
   max-width:724px;
   max-height: 724px;}
+
+.empty {
+  font-size: 30px;
+  padding:30px;  
+}
+

@@ -65,7 +65,7 @@
 		var pic = dataObj.data[0];
 		document.getElementById("profilePic").src = pic.path;
 	});
-	initShowcase("getUserFeed&id="+userId,"profile");
+	initShowcase("getUserFeed&id="+userId,"profile",document.getElementById("picturesContainer"),"Non ho trovato nulla, torna alla home e carica la tua prima foto");
 	
   	
 

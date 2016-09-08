@@ -27,7 +27,7 @@
 </body>
 
 <script type="text/javascript">
-	initShowcase("getFeed","home");
+	initShowcase("getFeed","home",document.getElementById("picturesContainer"),"Non ho trovato nulla, segui qualche tuo amico o carica una foto");
 
 	function previewOnChange(event,previewer,modal) {
 		var imgAccept = ["jpg","jpeg","png"];
