@@ -3,6 +3,7 @@
   require __DIR__ . "/db.php";
   $data = new db();
 
+  //create
   function createUser($username,$password,$firstName,$surname,$ajax = 0) {
     global $data;
     $data->utilityFilter($username);
@@ -19,6 +20,7 @@
     	return $data->insertedId;
   }
 
+  //read
   function getUserById($id,$userId,$ajax = 0) {
     global $data;
     $data->utilityFilter($id);
@@ -37,6 +39,52 @@
     }
   }
 
+  /**** DEBUG READ ALL ****/
+
+  function readAll($ajax = 0) {
+    global $data;
+    $query = "SELECT * FROM users";
+    $data->query($query);
+
+    if($ajax)
+      echo $data->ExtendedJSONResult();
+    else
+      return $data->arrayResult();
+  }
+
+
+  /************************/
+
+  //update
+  function updateUser($id,$newUsername,$newPassword, $ajax = 0) {
+    global $data;
+    $data->utilityFilter($id);
+    $data->utilityFilter($newUsername);
+    $data->utilityFilter($newPassword);
+
+    $query = "UPDATE users SET username = '$newUsername', password ='$newPassword' WHERE id = '$id'";
+    $result = $data->query($query);
+    if($ajax)
+    	echo $result;
+    else
+    	return $result;
+  }
+
+  //delete
+
+  function deleteUser($id,$ajax = 0) {
+    global $data;
+    $data->utilityFilter($id);
+    $query = "DELETE FROM users WHERE id = $id";
+
+    $result = $data->query($query);
+
+    if($ajax)
+      echo $data->affected;
+    else
+      return $data->affected;
+  }
+
   function authenticate($username,$password,$ajax = 0) {
     global $data;
     $data->utilityFilter($username);
@@ -47,7 +95,7 @@
     if($ajax) {
       	$fetchedUser = $data->JSONResult();
 
-        if($data->rows)
+        if($data->rows) // login ha successo
       	 createUserSession($fetchedUser);
       	echo $fetchedUser;
     }
@@ -91,7 +139,7 @@
 
   	if($followType == 1) //userId as follower
   		$query = "SELECT id as userId,username FROM followship INNER JOIN users ON id = followed WHERE follower = $userId";
-  	else if($followType == 0)
+  	else if($followType == 0) //userId as followed
   		$query = "SELECT id as userId,username FROM followship INNER JOIN users ON id = follower WHERE followed = $userId";
 
   	$data->query($query);
@@ -213,13 +261,13 @@
     unset($_SESSION['logged']);
     unset($_SESSION['id']);
     unset($_SESSION['username']);
-    unset($_SESSION['password']);
     session_destroy();
     echo "1";
   }
 
   function getSession($ajax = 0) {
     session_start();
+    $response = array();
     $response['data'] = $_SESSION;
     $response['length'] = count($_SESSION);
     if($ajax)
@@ -229,5 +277,5 @@
   }
 
   function isLoggedIn($session) {
-    return ($session["length"] && $session["data"]["logged"]);
+    return ($session["length"] && $session["data"]["logged"]); //cortocircuito AND
   }

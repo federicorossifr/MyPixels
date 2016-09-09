@@ -1,17 +1,19 @@
 //Inizializza la griglia di foto visibile nella pagina home
 //e nella pagina explore. (condivisa)
-function initShowcase(route,location) {
+function initShowcase(route,location,container,ifempty) {
 	get("./php/userRouter.php?route=getSession",function(result) {
     	var dataObj = JSON.parse(result);
-	    if(!dataObj.length) return;
+	    if(!dataObj.length) {
+	    	return;
+	    }
 	    globals.loggedUser = dataObj.data;
-	    loadPictures(document.getElementById("picturesContainer"));
+	    loadPictures(container,ifempty);
   	});
 
 
-  	function loadPictures(feedContainer) {
+  	function loadPictures(feedContainer,ifempty) {
 		get("./php/picRouter.php?route="+route,function(result){
-			picsLoaded(result,feedContainer);
+			picsLoaded(result,feedContainer,ifempty);
 		});
   	}
 

@@ -34,7 +34,7 @@
 </body>
 
 <script type="text/javascript">
-	initShowcase("getRelatedFeed","explore");
+	initShowcase("getRelatedFeed","explore",document.getElementById("picturesContainer"),"Non ho trovato nulla, segui i tuoi amici per sapere quali foto piacciono a loro");
 	var globalSearchedUsers = [];
 	var old = "";
 	document.getElementById("userSearch").oninput = function(event) {

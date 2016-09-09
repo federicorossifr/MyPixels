@@ -2,42 +2,33 @@
 
 //Costruisce il contenuto che viene mostrato quando si passa con il mouse
 //sopra un elemento pic.
+
+function createThumb(up,count,liked){
+	var tupA = document.createElement("a");
+    var tup = document.createElement("img");
+    tup.alt = (up)?"thumb up":"thumb down";
+   	if(liked == up)
+    	tup.src = "./res/thumbActive.png";
+    else
+    	tup.src = "./res/thumb.png";
+    tup.className = (up)?"thumb-up":"thumb-down";
+    tupA.appendChild(tup);
+    return tupA;
+}
 function makeMoreContent(pic) {
 	var moreContent = document.createElement("div");
 
 
     /*thumb up*/ //Creazione del "bottone" per pollice in su"
-   	var tupA = document.createElement("a");
-    var tup = document.createElement("img");
-    tup.alt = "thumb up"
-   	if(pic.userLiked == 1)
-    	tup.src = "./res/thumbActive.png";
-    else
-    	tup.src = "./res/thumb.png";
-    tup.className = "thumb-up";
+   	tupA = createThumb(1,pic.up,pic.userLiked);
     var tupCount = document.createElement("span");
     tupCount.textContent = pic.up;
-    tupA.appendChild(tup);
 
 
     /*thumb down*/ //Creazione del bottone per "pollice in giù"
-    var tdownA = document.createElement("a");
-    var tdown = document.createElement("img");
-    tdown.alt = "thumb down";
-    if(pic.userLiked == 0)
-    	tdown.src = "./res/thumbActive.png";
-    else
-    	tdown.src = "./res/thumb.png";
-   	tdown.className = "thumb-down";
+    tdownA = createThumb(0,pic.down,pic.userLiked);
    	var tdownCount = document.createElement("span");
     tdownCount.textContent = pic.down;
-    tdownA.appendChild(tdown);
-   
-
-   	//Imposto le azioni per i pulsanti appena creati
-   	//devono essere creati con codice separato e non
-   	//condiviso per poter interagire tra loro
-   	//con azioni
     setThumbAction(tdownA,tupA,pic,tupCount,tdownCount,0);
     setThumbAction(tupA,tdownA,pic,tupCount,tdownCount,1);
 
@@ -112,7 +103,7 @@ function setThumbAction(thumbClicked,otherThumb,pic,counterUp,counterDown,vote) 
 
 
 //Gestisce la creazione e la disposizione
-//di un elemento pic in un container
+//di un elemento pic in un container <img>
 function displayPic(container,pic) {
 	var picElement;
     picElement = document.createElement("img");
@@ -266,8 +257,13 @@ function showPicModal(pic,feedContainer) {
 
 
 //Callback per il caricamento ajax delle pic.
-function picsLoaded(result,feedContainer) {
+function picsLoaded(result,feedContainer,emptyString) {
 	var dataObj = JSON.parse(result);
+	if(dataObj.length == 0) {
+		feedContainer.className+=" empty";
+	    feedContainer.textContent = emptyString;
+	    return;
+	}
 	globals.pics = dataObj.data;
 	picIterator(feedContainer);
 }

@@ -15,6 +15,11 @@
         createPic($description,$postFile,$userId,1,'pic',1);
       break;
 
+    case 'readPic':
+        $picId = $_GET['picId'];
+        readPic($picId,1);
+        break;
+
     case 'getFeed':
         session_start();
         if(!isset($_SESSION['logged'])) break;
