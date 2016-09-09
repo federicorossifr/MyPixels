@@ -71,12 +71,12 @@
 
   	makeAjaxAnchor(document.getElementById("logoutButton"),function(result) {
   		if(result == 1) window.location.href ="./index.php";
-  	})
+  	});
 
   	makeAjaxAnchor(document.getElementById("followButton"),function(result) {
   		var resultObj = JSON.parse(result);
   		document.getElementById("followButton").textContent = (resultObj[0].state == "f") ? "Segui gi\340":"Segui";
-  	})
+  	});
 
   	makeAjaxAnchor(document.getElementById("followed-button"),socialLoaded);
 	makeAjaxAnchor(document.getElementById("followers-button"),socialLoaded);
@@ -85,7 +85,7 @@
   		var picPath = JSON.parse(result)[0]["path"];
   		console.log(picPath);
   		document.getElementById("profilePic").src = picPath;
-  	})
+  	});
   	document.getElementById("profilePicButton").onclick = function() {
   		showModal(document.getElementById("change-modal"));
   	}

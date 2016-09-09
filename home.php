@@ -61,7 +61,8 @@
   	});
   	checkForm(document.getElementById("creation-form"));
   	setAjax(document.getElementById("creation-form"),function(result) {
-  		initShowcase("getFeed","home");
+		initShowcase("getFeed","home",document.getElementById("picturesContainer"),"Non ho trovato nulla, segui qualche tuo amico o carica una foto");
+		hideModal(document.getElementById("creation-modal"));
   	})
 </script>
 </html>

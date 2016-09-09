@@ -1,5 +1,6 @@
 //Elimina tutti i figli di un elemento element.
 function empty(element) {
+    if(!element) return;
     while(element.hasChildNodes())
       element.removeChild(element.firstChild);
 }
