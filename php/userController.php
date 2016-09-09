@@ -39,52 +39,6 @@
     }
   }
 
-  /**** DEBUG READ ALL ****/
-
-  function readAll($ajax = 0) {
-    global $data;
-    $query = "SELECT * FROM users";
-    $data->query($query);
-
-    if($ajax)
-      echo $data->ExtendedJSONResult();
-    else
-      return $data->arrayResult();
-  }
-
-
-  /************************/
-
-  //update
-  function updateUser($id,$newUsername,$newPassword, $ajax = 0) {
-    global $data;
-    $data->utilityFilter($id);
-    $data->utilityFilter($newUsername);
-    $data->utilityFilter($newPassword);
-
-    $query = "UPDATE users SET username = '$newUsername', password ='$newPassword' WHERE id = '$id'";
-    $result = $data->query($query);
-    if($ajax)
-    	echo $result;
-    else
-    	return $result;
-  }
-
-  //delete
-
-  function deleteUser($id,$ajax = 0) {
-    global $data;
-    $data->utilityFilter($id);
-    $query = "DELETE FROM users WHERE id = $id";
-
-    $result = $data->query($query);
-
-    if($ajax)
-      echo $data->affected;
-    else
-      return $data->affected;
-  }
-
   function authenticate($username,$password,$ajax = 0) {
     global $data;
     $data->utilityFilter($username);
