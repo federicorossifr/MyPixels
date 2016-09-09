@@ -46,22 +46,6 @@
     }
   }
 
-  function readPic($picId,$ajax = 0) {
-    global $data;
-
-    $data->utilityFilter($picId);
-
-    $query = "SELECT * FROM extendedFeedPics WHERE id = $picId";
-
-    $data->query($query);
-
-    if($ajax)
-      echo $data->ExtendedJSONResult();
-    else {
-      return $data->arrayResult();
-    }
-  }
-
   function getFeed($userId,$ajax = 0) {
     global $data;
     $data->utilityFilter($userId);
