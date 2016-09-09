@@ -8,7 +8,6 @@
     move_uploaded_file($postFile['tmp_name'],"." . $path . $fileName . $type);
     return $path . $fileName . $type;
   }
-
   //FUNZIONE DI UTILITA' PER IL CONTROLLO DEL FORMATO
   function checkFormat($postFile,$field) {
     $imgAccepted = array("jpg","jpeg","png");
@@ -23,7 +22,6 @@
     return false;
   }
 
-  //create
   function createPic($description,$postFile,$user,$feed,$field,$ajax = 0) {
     global $data;
 
@@ -48,8 +46,6 @@
     }
   }
 
-
-  //read
   function readPic($picId,$ajax = 0) {
     global $data;
 
@@ -130,7 +126,6 @@
     else
       return $data->arrayResult();
   }
-
 
   function commentPic($userId,$picId,$comment,$ajax = 0) {
     global $data;

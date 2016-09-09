@@ -21,16 +21,6 @@ function placeAtScreenCenter(element,sizes) {
 	element.style.left = leftProp + "px";
 };
 
-//Funzione che restituisce il margine (sinistro e superiore) calcolato 
-//di un elemento passato alla funzione.
-function getBounds(element) {
-	var sizes = getRenderedSizes(element);
-	var windowSizes = getWindowSizes();
-	var rTop = (windowSizes.height-sizes.height)/2;
-	var rLeft = (windowSizes.width - sizes.width)/2;
-	return {"rTop":rTop,"rLeft":rLeft}
-}
-
 //Funzione che si occupa di mostrare un modalElement
 //al centro dello schermo
 function showModal(modalElement) {
