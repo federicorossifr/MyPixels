@@ -22,7 +22,7 @@ function displayMessages(result,chatContainer) {
     var messagesPics = [];
     for(var i = 0; i < messages.length; ++i) {
         messagesLis[i] = document.createElement("li");
-        messagesLis[i].textContent = messages[i].messageBody;
+        messagesLis[i].textContent = recape(messages[i].messageBody);
         if(messages[i].srcId == userId)
             messagesLis[i].className = "to";
         else
@@ -57,6 +57,7 @@ checkForm(document.getElementById("chat-form"));
 
 setAjax(document.getElementById("chat-form"),function(result) {
     var buddy = document.getElementById("chat-form").dest.value;
+    document.getElementById("chat-form").reset();
     get("./php/userRouter.php?route=getMessages&buddy="+buddy,function(result) {
         displayMessages(result,document.getElementById("message-list"));
         document.getElementById("message-list").scrollTop = document.getElementById("message-list").scrollHeight;

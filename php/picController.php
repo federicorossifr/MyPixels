@@ -63,7 +63,7 @@
     global $data;
     $data->utilityFilter($userId);
 
-    $query = "SELECT DISTINCT EP.* FROM extendedFeedPics EP WHERE EP.id IN (
+    $query = "SELECT DISTINCT EP.* FROM extendedFeedPics EP WHERE (EP.id IN (
                 SELECT C.picId FROM comments C WHERE C.userId IN (
                   SELECT F.followed FROM followship F WHERE F.follower = $userId
                 )
@@ -72,7 +72,7 @@
                 SELECT L.picId FROM likes L WHERE L.userId IN (
                   SELECT F.followed FROM followship F WHERE F.follower = $userId
               )
-            ) AND EP.id NOT IN (
+            )) AND EP.id NOT IN (
                 SELECT EP2.id FROM extendedFeedPics EP2 
                 WHERE EP2.userId IN 
                 (SELECT followed FROM followship WHERE follower = $userId) OR EP2.userId = $userId);";
