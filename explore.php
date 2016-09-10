@@ -12,7 +12,6 @@
 
 	<aside id="searchUser">
 		<input type="text" id="userSearch" list="users" placeholder="Cerca i tuoi amici...">
-		<a class="submitButton" href="#">Vai</a>
 		<datalist id="users">
 		</datalist> 
 	</aside>
